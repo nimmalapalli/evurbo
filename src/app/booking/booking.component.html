@@ -11,7 +11,7 @@
           <div class="card-1">
             <mat-form-field appearance="outline">
               <mat-label>Mobile Number</mat-label>
-              <input matInput formControlName="mobileNo" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+              <input matInput formControlName="mobileNo" required oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
               <mat-error *ngIf="userForm.get('mobileNo')?.hasError('required')">
                 Mobile Number is required
               </mat-error>
@@ -21,7 +21,7 @@
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>First Name</mat-label>
-              <input matInput formControlName="firstName" required  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')" >
+              <input matInput formControlName="firstName" required  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" >
               <mat-error *ngIf="userForm.get('firstName')?.hasError('required')">
                 First Name is required
               </mat-error>
@@ -29,7 +29,7 @@
     
             <mat-form-field appearance="outline">
               <mat-label>Last Name</mat-label>
-              <input matInput formControlName="lastName" required  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')" >
+              <input matInput formControlName="lastName" required  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" >
               <mat-error *ngIf="userForm.get('lastName')?.hasError('required')">
                 Last Name is required
               </mat-error>
@@ -52,7 +52,7 @@
     
             <mat-form-field appearance="outline">
               <mat-label>Email</mat-label>
-              <input matInput formControlName="email" required>
+              <input matInput formControlName="email"   oninput="this.value = this.value.replace(/[^a-zA-Z0-9._%+-@]/g, '').slice(0, 50)"  required>
               <mat-error *ngIf="userForm.get('email')?.hasError('required')">
                 Email is required
               </mat-error>
@@ -71,7 +71,7 @@
               <div *ngIf="userForm.get('hasLicense')?.value">
                 <mat-form-field appearance="outline">
                   <mat-label>License Number</mat-label>
-                  <input matInput formControlName="licenseNo"  oninput="this.value = this.value.replace(/[^a-zA-Z0-9-]/g, '')" >
+                  <input matInput formControlName="licenseNo"  oninput="this.value = this.value.replace(/[^a-zA-Z0-9-]/g, '').slice(0, 30)" >
                   <mat-error *ngIf="userForm.get('licenseNo')?.hasError('required')">
                     License Number is required
                   </mat-error>
