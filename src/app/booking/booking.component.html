@@ -11,7 +11,7 @@
           <div class="card-1">
             <mat-form-field appearance="outline">
               <mat-label>Mobile Number</mat-label>
-              <input matInput formControlName="mobileNo" required>
+              <input matInput formControlName="mobileNo" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
               <mat-error *ngIf="userForm.get('mobileNo')?.hasError('required')">
                 Mobile Number is required
               </mat-error>
@@ -21,7 +21,7 @@
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>First Name</mat-label>
-              <input matInput formControlName="firstName" required>
+              <input matInput formControlName="firstName" required  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')" >
               <mat-error *ngIf="userForm.get('firstName')?.hasError('required')">
                 First Name is required
               </mat-error>
@@ -29,7 +29,7 @@
     
             <mat-form-field appearance="outline">
               <mat-label>Last Name</mat-label>
-              <input matInput formControlName="lastName" required>
+              <input matInput formControlName="lastName" required  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '')" >
               <mat-error *ngIf="userForm.get('lastName')?.hasError('required')">
                 Last Name is required
               </mat-error>
@@ -39,7 +39,7 @@
     
             <mat-form-field appearance="outline">
               <mat-label>Date of Birth</mat-label>
-              <input matInput [matDatepicker]="picker" formControlName="dob" required>
+              <input matInput [matDatepicker]="picker" formControlName="dob" required readonly> 
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
               <mat-error *ngIf="userForm.get('dob')?.hasError('required')">
@@ -71,7 +71,7 @@
               <div *ngIf="userForm.get('hasLicense')?.value">
                 <mat-form-field appearance="outline">
                   <mat-label>License Number</mat-label>
-                  <input matInput formControlName="licenseNo">
+                  <input matInput formControlName="licenseNo"  oninput="this.value = this.value.replace(/[^a-zA-Z0-9-]/g, '')" >
                   <mat-error *ngIf="userForm.get('licenseNo')?.hasError('required')">
                     License Number is required
                   </mat-error>
@@ -126,7 +126,7 @@
               <div class="startdate-c">
                 <mat-form-field appearance="outline" class="exampli-field">
                   <mat-label>Start Date</mat-label>
-                  <input matInput [matDatepicker]="pickerStart" (dateChange)="onDateChange($event)" [value]="startDate | date:'shortDate'" required>
+                  <input matInput [matDatepicker]="pickerStart" (dateChange)="onDateChange($event)" [value]="startDate | date:'shortDate'" required readonly>
                   <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
                   <mat-datepicker #pickerStart></mat-datepicker>
                   <mat-error *ngIf="userForm.get('startDate')?.hasError('required')">
@@ -137,7 +137,7 @@
               <div class="startdate-c">
                 <mat-form-field appearance="outline" class="exampli-field">
                   <mat-label>Start Time</mat-label>
-                  <mat-select (selectionChange)="onTimeChange($event.value)" [value]="startDate | date:'shortTime'" required>
+                  <mat-select (selectionChange)="onTimeChange($event.value)" [value]="startDate | date:'shortTime'" required readonly>
                     <mat-option *ngFor="let time of timeSlots" [value]="time">
                       {{ time }}
                     </mat-option>

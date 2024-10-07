@@ -279,5 +279,24 @@ export class BookingComponent {
       this.genderDetails=res.data;
     })
   }
-
+  restrictInput(event: any, pattern: RegExp): void {
+    const regex = new RegExp(pattern, 'g');
+    const input = event.target.value.replace(regex, '');
+    this.userForm.controls['mobileNo'].setValue(input, { emitEvent: false });
+  }
+  restrictInput1(event: any, pattern: RegExp, controlName: string): void {
+    const regex = new RegExp(pattern, 'g');
+    const input = event.target.value.replace(regex, '');
+    this.userForm.controls['firstName'].setValue(input, { emitEvent: false });
+  }
+  restrictInput2(event: any, pattern: RegExp, controlName: string): void {
+    const regex = new RegExp(pattern, 'g');
+    const input = event.target.value.replace(regex, '');
+    this.userForm.controls['lastName'].setValue(input, { emitEvent: false });
+  }
+  restrictInput3(event: any, pattern: RegExp, controlName: string): void {
+    const regex = new RegExp(pattern, 'g');
+  const input = event.target.value.replace(regex, '');
+    this.userForm.controls['licenseNo'].setValue(input, { emitEvent: false });
+  }
 }
