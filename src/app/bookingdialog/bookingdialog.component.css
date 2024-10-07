@@ -1,0 +1,12 @@
+.heading{
+  color: rgb(80, 80, 182);
+  font-size: 24px;
+  font-weight: 300;
+}
+.dialog-container{
+  padding: 3%;
+}
+p{
+   font-size: 18px;
+   font-weight: 300;
+}

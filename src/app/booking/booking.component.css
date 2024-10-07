@@ -1,0 +1,86 @@
+.container{
+    padding: 2%;
+ 
+}
+.book-form-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+    padding: 2%;
+  
+  }
+  
+  .card-1 {
+    flex: 1 1 calc(50% - 20px); /* Makes the form fields take up 50% of the row */
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Adds spacing between the form fields */
+  }
+  
+  .mat-card {
+
+    border-radius: 8px;
+
+  }
+  
+button{
+  width: 200px;
+
+  height: 40px;
+}
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .card-1 {
+      flex: 1 1 100%; /* For smaller screens, the cards will stack */
+    }
+  }
+  @media screen and (min-width:400px) {
+    .startdate-c{
+      width: 380px;
+      height: 60px;
+  
+  
+   
+    }
+  }
+  .startdate-p{
+    display:flex;
+    flex-flow: wrap row;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: 10px;
+    row-gap: 20px;
+
+  }
+  .startdate-c{
+    width: 380px;
+    height: 60px;
+ 
+
+ 
+  }
+  .exampli-field{
+    width: 100%;
+  }
+
+  .licenence-checkbox-container{
+    display: flex;
+    flex-flow: wrap row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    row-gap: 20px;
+
+  }
+  .child{
+    width: 280px;
+    height: 40px;
+
+  }
+
+  .dialog .mat-dialog-container {
+
+     --color: black;
+    --border-radius: 25px !important;
+  }

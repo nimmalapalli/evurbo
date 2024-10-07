@@ -1,0 +1,48 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+/* .theme-toggle-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+} */
+
+.toggle-button {
+   
+  border-radius: 100%;
+
+
+
+}
+mat-icon{
+  font-weight: bolder;
+font-size: large;
+
+  padding: 10px;
+}
+
+
+.toggle-button:focus {
+  outline: none; /* Remove default outline */
+}
+
+.toolbar{
+  height: 70px;
+}
+.example-spacer {
+  flex: 1 ;
+}
