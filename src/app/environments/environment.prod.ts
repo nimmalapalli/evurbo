@@ -1,5 +1,5 @@
 
 export const environment = {
     production:true,
-    BaseURL:"http://evurbo.logiconglobal.com/api"
+    BaseURL:"https://bookingapi-c4gzdnetegebbycc.southindia-01.azurewebsites.net/api"
 }
