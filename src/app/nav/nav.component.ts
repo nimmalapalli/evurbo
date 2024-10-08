@@ -56,7 +56,7 @@ export class NavComponent {
     }
   
   ngOnInit(): void {
-  
+
     this.toggleControl.valueChanges.subscribe(
       (darkMode:any)=>{
         this.className= darkMode ? this.darkClassName : this.lightClassName;
