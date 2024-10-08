@@ -257,7 +257,7 @@ export class BookingComponent {
   gethubdeatails(){
     const data = { Category:'HUB'}
     this.bookingservice.lookupModel(data).subscribe((res:any)=>{
-      console.log(res.data)
+    
       this.hubDetails=res.data;
     })
   }
@@ -267,7 +267,7 @@ export class BookingComponent {
     const data ={ Category:'MODEL'
     }
     this.bookingservice.lookupModel(data).subscribe((res:any)=>{
-      console.log(res.data)
+    
       this.modelDetails=res.data;
     })
   }
@@ -275,7 +275,7 @@ export class BookingComponent {
     const data ={ Category:'GENDER'
     }
     this.bookingservice.lookupModel(data).subscribe((res:any)=>{
-      console.log(res.data)
+     
       this.genderDetails=res.data;
     })
   }

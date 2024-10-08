@@ -36,24 +36,8 @@ button{
       flex: 1 1 100%; /* For smaller screens, the cards will stack */
     }
   }
-  @media screen and (min-width:400px) {
-    .startdate-c{
-      width: 380px;
-      height: 60px;
-  
-  
-   
-    }
-  }
-  .startdate-p{
-    display:flex;
-    flex-flow: wrap row;
-    align-items: center;
-    justify-content: flex-start;
-    column-gap: 10px;
-    row-gap: 20px;
 
-  }
+
   .startdate-c{
     width: 380px;
     height: 60px;
@@ -68,6 +52,9 @@ button{
   }
   
   .exampli-field {
+    flex: 1 1 calc(50% - 16px);
+  }
+  .license{
     flex: 1 1 calc(50% - 16px);
   }
   
@@ -86,9 +73,8 @@ button{
 
   }
   .child{
-    width: 280px;
-    height: 40px;
 
+    flex: 1 1 calc(50% - 16px);
   }
 
   .dialog .mat-dialog-container {

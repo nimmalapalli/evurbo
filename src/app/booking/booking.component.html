@@ -69,7 +69,7 @@
             </div>
             <div class="child">
               <div *ngIf="userForm.get('hasLicense')?.value">
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" class="license">
                   <mat-label>License Number</mat-label>
                   <input matInput formControlName="licenseNo"  oninput="this.value = this.value.replace(/[^a-zA-Z0-9-]/g, '').slice(0, 30)" >
                   <mat-error *ngIf="userForm.get('licenseNo')?.hasError('required')">
