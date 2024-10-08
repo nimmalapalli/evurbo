@@ -61,10 +61,22 @@ button{
 
  
   }
-  .exampli-field{
-    width: 100%;
+  .form-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
   }
-
+  
+  .exampli-field {
+    flex: 1 1 calc(50% - 16px);
+  }
+  
+  @media (max-width: 768px) {
+    .exampli-field {
+      flex: 1 1 100%;
+    }
+  }
+  
   .licenence-checkbox-container{
     display: flex;
     flex-flow: wrap row;

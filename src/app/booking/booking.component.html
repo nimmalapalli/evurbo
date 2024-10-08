@@ -122,56 +122,52 @@
                 Model selection is required
               </mat-error>
             </mat-form-field>
-             <div class="startdate-p">
-              <div class="startdate-c">
-                <mat-form-field appearance="outline" class="exampli-field">
-                  <mat-label>Start Date</mat-label>
-                  <input matInput [matDatepicker]="pickerStart" (dateChange)="onDateChange($event)" [value]="startDate | date:'shortDate'" required readonly>
-                  <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
-                  <mat-datepicker #pickerStart></mat-datepicker>
-                  <mat-error *ngIf="userForm.get('startDate')?.hasError('required')">
-                    Start Date is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="startdate-c">
-                <mat-form-field appearance="outline" class="exampli-field">
-                  <mat-label>Start Time</mat-label>
-                  <mat-select (selectionChange)="onTimeChange($event.value)" [value]="startDate | date:'shortTime'" required readonly>
-                    <mat-option *ngFor="let time of timeSlots" [value]="time">
-                      {{ time }}
-                    </mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="userForm.get('startDateTime')?.hasError('required')">
-                    Start Time is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="startdate-c">
-                <mat-form-field appearance="outline" class="exampli-field">
-                  <mat-label>End Date</mat-label>
-                  <input matInput [matDatepicker]="pickerEnd" (dateChange)="onEndDateChange($event)" [value]="endDate | date:'shortDate'" required>
-                  <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
-                  <mat-datepicker #pickerEnd></mat-datepicker>
-                  <mat-error *ngIf="userForm.get('endDate')?.hasError('required')">
-                    End Date is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-              <div class="startdate-c">
-                <mat-form-field appearance="outline" class="exampli-field">
-                  <mat-label>End Time</mat-label>
-                  <mat-select (selectionChange)="onEndTimeChange($event.value)" [value]="endDate | date:'shortTime'" required>
-                    <mat-option *ngFor="let time of timeSlots" [value]="time">
-                      {{ time }}
-                    </mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="userForm.get('endDate')?.hasError('required')">
-                    End Time is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
-             </div>
+            <div class="form-grid">
+              <mat-form-field appearance="outline" class="exampli-field">
+                <mat-label>Start Date</mat-label>
+                <input matInput [matDatepicker]="pickerStart" (dateChange)="onDateChange($event)" [value]="startDate | date:'shortDate'" required readonly>
+                <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                <mat-datepicker #pickerStart></mat-datepicker>
+                <mat-error *ngIf="userForm.get('startDate')?.hasError('required')">
+                  Start Date is required
+                </mat-error>
+              </mat-form-field>
+            
+              <mat-form-field appearance="outline" class="exampli-field">
+                <mat-label>Start Time</mat-label>
+                <mat-select (selectionChange)="onTimeChange($event.value)" [value]="startDate | date:'shortTime'" required readonly>
+                  <mat-option *ngFor="let time of timeSlots" [value]="time">
+                    {{ time }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="userForm.get('startDateTime')?.hasError('required')">
+                  Start Time is required
+                </mat-error>
+              </mat-form-field>
+            
+              <mat-form-field appearance="outline" class="exampli-field">
+                <mat-label>End Date</mat-label>
+                <input matInput [matDatepicker]="pickerEnd" (dateChange)="onEndDateChange($event)" [value]="endDate | date:'shortDate'" required>
+                <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                <mat-datepicker #pickerEnd></mat-datepicker>
+                <mat-error *ngIf="userForm.get('endDate')?.hasError('required')">
+                  End Date is required
+                </mat-error>
+              </mat-form-field>
+            
+              <mat-form-field appearance="outline" class="exampli-field">
+                <mat-label>End Time</mat-label>
+                <mat-select (selectionChange)="onEndTimeChange($event.value)" [value]="endDate | date:'shortTime'" required>
+                  <mat-option *ngFor="let time of timeSlots" [value]="time">
+                    {{ time }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="userForm.get('endDate')?.hasError('required')">
+                  End Time is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            
            
             
          
