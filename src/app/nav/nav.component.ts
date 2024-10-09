@@ -1,6 +1,6 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, HostBinding, inject } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, HostBinding, Inject, inject, PLATFORM_ID } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, isPlatformBrowser, NgIf } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -14,6 +14,7 @@ import { FormControl } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {MatRippleModule} from '@angular/material/core';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { OfflineComponent } from '../offline/offline.component';
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
@@ -30,7 +31,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     RouterModule,
     MatIconModule,
     MatRippleModule,
-    MatTooltipModule
+    MatTooltipModule,NgIf,
+    OfflineComponent
   ],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
@@ -43,7 +45,7 @@ export class NavComponent {
       shareReplay()
     );
     title = 'evurboweb';
-    constructor(private overlay:OverlayContainer){
+    constructor(private overlay:OverlayContainer,@Inject(PLATFORM_ID) private platformId: Object){
   
     }
     toggleControl = new FormControl(false);
@@ -68,9 +70,23 @@ export class NavComponent {
         }
   
       }
+
     )
    
+        // Listen for online and offline events
+        if (isPlatformBrowser(this.platformId)) {
+          // Only in the browser, as `window` does not exist on the server
+          window.addEventListener('online', () => this.updateOnlineStatus());
+          window.addEventListener('offline', () => this.updateOnlineStatus());
+          this.updateOnlineStatus(); // Initial check
+        }
   
+    }
+    isOnline: boolean = true;
+
+ 
   
+    updateOnlineStatus() {
+      this.isOnline = navigator.onLine;
     }
 }

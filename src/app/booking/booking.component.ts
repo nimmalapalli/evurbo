@@ -217,8 +217,9 @@ export class BookingComponent {
  
  
         endDate:['', Validators.required],
-        "bookingStatus": 0
+        "bookingStatus": 0,
         // endTime: ['', Validators.required],
+        acceptTerms: [false, Validators.requiredTrue] 
     
     
     });

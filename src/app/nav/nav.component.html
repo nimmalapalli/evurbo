@@ -25,6 +25,8 @@
       </div>
     </mat-toolbar>
 
-    <router-outlet></router-outlet>
+    <router-outlet *ngIf="isOnline"></router-outlet>
+    <app-offline *ngIf="!isOnline"></app-offline>
+
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -79,13 +79,20 @@
                     Invalid License Number
                   </mat-error>
                 </mat-form-field>
+
               </div>
             </div>
        
-    
+
          
           
           </div>
+          <mat-checkbox formControlName="acceptTerms" required>
+            I accept the <a href="https://evurbo.energy/terms-and-conditions/" target="_blank">Terms and Conditions</a> 
+          </mat-checkbox>
+          <mat-error *ngIf="userForm.get('acceptTerms')?.hasError('required')">
+            You must accept the Terms and Conditions to proceed.
+          </mat-error>
         </div>
           <div class="card-1">
             <mat-form-field appearance="outline">
@@ -171,21 +178,13 @@
                 </mat-error>
               </mat-form-field>
             </div>
-            <mat-form-field appearance="outline" class="exampli-field">
+            <mat-form-field appearance="outline" >
               <mat-label>Total Amount</mat-label>
               <input matInput value="₹{{ totalAmount.toFixed(2) }}" readonly>
               </mat-form-field>
            
-          
-         
-            
              
-    
-          
-            
-         
-    
-            
+ 
           
           </div>
           <button class="submit-btn" mat-raised-button color="primary" type="submit"  >Proceed</button>
@@ -194,5 +193,6 @@
       </mat-card>
     </form>
     </div> 
-    <h3 class="mat-h3" style="text-align: center;">Experience the convenience and eco-friendly charm of exploring the city on our rental ebikes.</h3>
+    <h3 class="explore-content" style="text-align: center;">Experience the convenience and eco-friendly charm of exploring the city on our rental ebikes.</h3>
+    <p class="end-content" style="text-align: center;">Visit Our website <a href="https://evurbo.energy/" target="_blank">EVURBO</a></p>
   
