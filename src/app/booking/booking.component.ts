@@ -75,6 +75,8 @@ MatDialogModule
   styleUrl: './booking.component.css'
 })
 export class BookingComponent {
+  today: Date = new Date();
+
   bookingData:any;
   userForm!: FormGroup;
   timeSlots: string[] = [];
@@ -84,7 +86,8 @@ export class BookingComponent {
   startDate: Date = new Date();
   endDate: Date = new Date();
   genderDetails:any;
-
+  ratePerHour: number = 100; // Example rate per hour in INR
+  totalAmount: number = 0;
   
 
   constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog) {
@@ -103,6 +106,7 @@ export class BookingComponent {
     this.startDate = new Date(selectedDate); // Set the selected date
     this.startDate.setHours(parseInt(time.split(':')[0]), parseInt(time.split(':')[1])); // Keep the time part
     this.userForm.get('startDate')?.setValue(this.startDate); // Update the form control
+    this.calculateTotalAmount();
   }
 
   // Update the combined form control value when the time changes
@@ -110,6 +114,7 @@ export class BookingComponent {
     const [hour, minute] = this.convertTimeStringToHours(selectedTime);
     this.startDate.setHours(hour, minute);
     this.userForm.get('startDate')?.setValue(this.startDate);
+    this.calculateTotalAmount();
   }
   onEndDateChange(event: any) {
     const selectedDate: Date | null = event.value;
@@ -119,6 +124,7 @@ export class BookingComponent {
       this.endDate.setHours(parseInt(time.split(':')[0]), parseInt(time.split(':')[1]));
       this.userForm.get('endDate')?.setValue(this.endDate);
     }
+    this.calculateTotalAmount();
   }
 
   // Handle changes to the end time
@@ -126,6 +132,7 @@ export class BookingComponent {
     const [hour, minute] = this.convertTimeStringToHours(selectedTime);
     this.endDate.setHours(hour, minute);
     this.userForm.get('endDate')?.setValue(this.endDate);
+    this.calculateTotalAmount();
   }
   // Helper function to convert '08:00 AM' to hours and minutes
   convertTimeStringToHours(time: string): [number, number] {
@@ -139,6 +146,41 @@ export class BookingComponent {
     }
     
     return [hour, minute];
+  }
+  updateDateWithTime(date: Date, time: string, type: 'start' | 'end') {
+    const [hours, minutes] = this.convertTimeTo24Hour(time);
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    
+    if (type === 'start') {
+      this.startDate = date;
+    } else {
+      this.endDate = date;
+    }
+  }
+  calculateTotalAmount() {
+    if (this.startDate && this.endDate) {
+      const durationInHours = (this.endDate.getTime() - this.startDate.getTime()) / (1000 * 60 * 60);
+      if (durationInHours > 0) {
+        this.totalAmount = durationInHours * this.ratePerHour;
+      } else {
+        this.totalAmount = 0;
+      }
+    }
+  }
+
+  convertTimeTo24Hour(time: string): [number, number] {
+    const [timeString, modifier] = time.split(' ');
+    let [hours, minutes] = timeString.split(':').map(Number);
+
+    if (modifier === 'PM' && hours !== 12) {
+      hours += 12;
+    }
+    if (modifier === 'AM' && hours === 12) {
+      hours = 0;
+    }
+
+    return [hours, minutes];
   }
   ngOnInit() {
  

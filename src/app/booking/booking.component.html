@@ -125,7 +125,7 @@
             <div class="form-grid">
               <mat-form-field appearance="outline" class="exampli-field">
                 <mat-label>Start Date</mat-label>
-                <input matInput [matDatepicker]="pickerStart" (dateChange)="onDateChange($event)" [value]="startDate | date:'shortDate'" required readonly>
+                <input matInput [matDatepicker]="pickerStart" (dateChange)="onDateChange($event)" [value]="startDate | date:'shortDate'" [min]="today" required readonly>
                 <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
                 <mat-datepicker #pickerStart></mat-datepicker>
                 <mat-error *ngIf="userForm.get('startDate')?.hasError('required')">
@@ -147,7 +147,7 @@
             
               <mat-form-field appearance="outline" class="exampli-field">
                 <mat-label>End Date</mat-label>
-                <input matInput [matDatepicker]="pickerEnd" (dateChange)="onEndDateChange($event)" [value]="endDate | date:'shortDate'" required>
+                <input matInput [matDatepicker]="pickerEnd" (dateChange)="onEndDateChange($event)" [value]="endDate | date:'shortDate'" [min]="today" required>
                 <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
                 <mat-datepicker #pickerEnd></mat-datepicker>
                 <mat-error *ngIf="userForm.get('endDate')?.hasError('required')">
@@ -167,9 +167,12 @@
                 </mat-error>
               </mat-form-field>
             </div>
-            
+            <mat-form-field appearance="outline" class="exampli-field">
+              <mat-label>Total Amount</mat-label>
+              <input matInput value="₹{{ totalAmount.toFixed(2) }}" readonly>
+              </mat-form-field>
            
-            
+          
          
             
              
