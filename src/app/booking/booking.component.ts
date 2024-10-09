@@ -93,6 +93,7 @@ export class BookingComponent {
   constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog) {
     this.getgenderdeatails();
     this.generateTimeSlots();
+  
 
     this.modelForm=this.fb.group({
       category:'MODEL'
@@ -108,6 +109,7 @@ export class BookingComponent {
     this.startDate.setHours(parseInt(time.split(':')[0]), parseInt(time.split(':')[1])); // Keep the time part
     this.userForm.get('startDate')?.setValue(this.startDate); // Update the form control
     this.calculateTotalAmount();
+
   }
 
   // Update the combined form control value when the time changes
@@ -116,6 +118,7 @@ export class BookingComponent {
     this.startDate.setHours(hour, minute);
     this.userForm.get('startDate')?.setValue(this.startDate);
     this.calculateTotalAmount();
+
   }
   onEndDateChange(event: any) {
     const selectedDate: Date | null = event.value;
@@ -126,6 +129,7 @@ export class BookingComponent {
       this.userForm.get('endDate')?.setValue(this.endDate);
     }
     this.calculateTotalAmount();
+ 
   }
 
   // Handle changes to the end time
@@ -134,6 +138,7 @@ export class BookingComponent {
     this.endDate.setHours(hour, minute);
     this.userForm.get('endDate')?.setValue(this.endDate);
     this.calculateTotalAmount();
+  
   }
   // Helper function to convert '08:00 AM' to hours and minutes
   convertTimeStringToHours(time: string): [number, number] {
@@ -161,14 +166,22 @@ export class BookingComponent {
   }
   calculateTotalAmount() {
     if (this.startDate && this.endDate) {
-      const durationInHours = (this.endDate.getTime() - this.startDate.getTime()) / (1000 * 60 * 60);
-      if (durationInHours > 0) {
-        this.totalAmount = durationInHours * this.ratePerHour;
-      } else {
+      // Check if end date is earlier than start date
+      if (this.endDate.getTime() < this.startDate.getTime()) {
         this.totalAmount = 0;
+        this.snackBar.open('End date cannot be earlier than start date', 'Close', { duration: 3000 });
+      } else {
+        const durationInHours = (this.endDate.getTime() - this.startDate.getTime()) / (1000 * 60 * 60);
+        this.totalAmount = durationInHours * this.ratePerHour;
       }
     }
   }
+  
+  // Filter function for end date picker to disable dates before start date
+  endDateFilter = (date: Date | null): boolean => {
+    return date ? date >= this.startDate : false;
+  };
+  
 
   convertTimeTo24Hour(time: string): [number, number] {
     const [timeString, modifier] = time.split(' ');
@@ -221,6 +234,9 @@ export class BookingComponent {
     });
   
   }
+
+  
+
   generateBookingNo() {
     // Example logic to generate a unique booking number
     const randomBookingNo = 'EVURBO' + Math.floor(Math.random() * 1000000);
@@ -351,4 +367,5 @@ export class BookingComponent {
   const input = event.target.value.replace(regex, '');
     this.userForm.controls['licenseNo'].setValue(input, { emitEvent: false });
   }
+  
 }
