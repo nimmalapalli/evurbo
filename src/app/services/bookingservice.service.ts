@@ -24,6 +24,8 @@ export class BookingserviceService {
     return this.http.post(this.apiurl+'/Booking/Webbooking',userbooking);
    }
 
-
+  getuserDetails(data:any){
+    return this.http.post(this.apiurl+'/Booking/getmemberdetails',data);
+  }
 
 }

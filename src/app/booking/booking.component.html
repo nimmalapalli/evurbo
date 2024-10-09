@@ -11,7 +11,7 @@
           <div class="card-1">
             <mat-form-field appearance="outline">
               <mat-label>Mobile Number</mat-label>
-              <input matInput formControlName="mobileNo" required oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
+              <input matInput formControlName="mobileNo" (keyup)="getuserdeatails($event)"  required oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
               <mat-error *ngIf="userForm.get('mobileNo')?.hasError('required')">
                 Mobile Number is required
               </mat-error>
@@ -21,7 +21,7 @@
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>First Name</mat-label>
-              <input matInput formControlName="firstName" required  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" >
+              <input matInput value="{{userDetails?.firstName}}" formControlName="firstName" required  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" >
               <mat-error *ngIf="userForm.get('firstName')?.hasError('required')">
                 First Name is required
               </mat-error>
@@ -29,7 +29,7 @@
     
             <mat-form-field appearance="outline">
               <mat-label>Last Name</mat-label>
-              <input matInput formControlName="lastName" required  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" >
+              <input matInput value="{{userDetails?.lastName}}" formControlName="lastName" required  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" >
               <mat-error *ngIf="userForm.get('lastName')?.hasError('required')">
                 Last Name is required
               </mat-error>
@@ -39,7 +39,7 @@
     
             <mat-form-field appearance="outline">
               <mat-label>Date of Birth</mat-label>
-              <input matInput [matDatepicker]="picker" formControlName="dob" required readonly> 
+              <input matInput value="{{userDetails?.dateofBirth}}" [matDatepicker]="picker" formControlName="dob" required readonly> 
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
               <mat-error *ngIf="userForm.get('dob')?.hasError('required')">
@@ -52,7 +52,7 @@
     
             <mat-form-field appearance="outline">
               <mat-label>Email</mat-label>
-              <input matInput formControlName="email"   oninput="this.value = this.value.replace(/[^a-zA-Z0-9._%+-@]/g, '').slice(0, 50)"  required>
+              <input matInput formControlName="email" value="{{userDetails?.emailID}}"   oninput="this.value = this.value.replace(/[^a-zA-Z0-9._%+-@]/g, '').slice(0, 50)"  required>
               <mat-error *ngIf="userForm.get('email')?.hasError('required')">
                 Email is required
               </mat-error>
@@ -91,7 +91,7 @@
             <mat-form-field appearance="outline">
               <mat-label>Gender</mat-label>
               <mat-select  formControlName="gender" required>
-                <mat-option  *ngFor="let option of genderDetails" [value]="option.lookupID">{{option.lookupDescription}}</mat-option>
+                <mat-option value="{{userDetails?.gender}}" *ngFor="let option of genderDetails" [value]="option.lookupID">{{option.lookupDescription}}</mat-option>
             
               </mat-select>
               <mat-error *ngIf="userForm.get('gender')?.hasError('required')">
@@ -184,7 +184,7 @@
             
           
           </div>
-          <button mat-raised-button color="primary" type="submit"  >Proceed</button>
+          <button class="submit-btn" mat-raised-button color="primary" type="submit"  >Proceed</button>
         </div>
       
       </mat-card>

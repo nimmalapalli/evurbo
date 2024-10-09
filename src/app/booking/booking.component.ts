@@ -88,11 +88,12 @@ export class BookingComponent {
   genderDetails:any;
   ratePerHour: number = 100; // Example rate per hour in INR
   totalAmount: number = 0;
-  
-
+  userDetails:any;
+  code:any;
   constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog) {
     this.getgenderdeatails();
     this.generateTimeSlots();
+
     this.modelForm=this.fb.group({
       category:'MODEL'
     })
@@ -319,6 +320,15 @@ export class BookingComponent {
     this.bookingservice.lookupModel(data).subscribe((res:any)=>{
      
       this.genderDetails=res.data;
+    })
+  }
+  getuserdeatails(event:any){
+    let data ={ mobileNo:event.target.value
+    }
+ 
+    this.bookingservice.getuserDetails(data).subscribe((res:any)=>{
+       console.log(res.data)
+      this.userDetails=res.data;
     })
   }
   restrictInput(event: any, pattern: RegExp): void {
