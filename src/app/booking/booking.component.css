@@ -39,7 +39,7 @@ button{
       flex: 1 1 100%; /* For smaller screens, the cards will stack */
     }
     .submit-btn{
-      flex: 1 1 100%;
+    width: 100%;
     }
   }
 
@@ -99,9 +99,16 @@ button{
     font-weight: 500;
  
   }
-  .check-box-container{
-    padding: 1% 2%;
-  }
-  .check-box-container1{
-    padding: 1.5% 2%;
-  }
+
+
+/* Flex container for checkbox and error message */
+.flex-container {
+
+padding-left:2% ;
+
+}
+
+
+
+
+

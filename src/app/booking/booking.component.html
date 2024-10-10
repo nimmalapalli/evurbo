@@ -179,22 +179,24 @@
               </mat-form-field>
            
              
- 
+         
           
           </div>
-     
+    
+    
+   
         </div>
-        <div class="check-box-container">
+      <div class="flex-container">
         <mat-checkbox formControlName="acceptTerms" required>
-          I accept the <a href="https://evurbo.energy/terms-and-conditions/" target="_blank">Terms and Conditions</a> 
+          I accept the <a href="https://evurbo.energy/terms-and-conditions/" target="_blank">Terms and Conditions</a>
         </mat-checkbox>
         <mat-error *ngIf="userForm.get('acceptTerms')?.hasError('required')">
           You must accept the Terms and Conditions to proceed.
         </mat-error>
-      </div> 
-      <div class="check-box-container1">
-        <button class="submit-btn" mat-raised-button color="primary" type="submit"  >Proceed</button>
-      </div> 
+<br>
+
+      <button class="submit-btn" mat-raised-button color="primary" type="submit">Proceed</button>
+    </div><br>
       </mat-card>
     </form>
     </div> 
