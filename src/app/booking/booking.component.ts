@@ -21,6 +21,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { PaymentgatewayComponent } from '../paymentgateway/paymentgateway.component';
 import { BookingserviceService } from '../services/bookingservice.service';
 import { BookingdialogComponent } from '../bookingdialog/bookingdialog.component';
+import { MY_DATE_FORMATS } from '../customdate';
 
 
 export function ageValidator(minAge: number): ValidatorFn {
@@ -71,6 +72,7 @@ MatDialogModule
 
 ],
     schemas:[CUSTOM_ELEMENTS_SCHEMA],
+  providers:[{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.css'
 })
@@ -166,17 +168,27 @@ export class BookingComponent {
   }
   calculateTotalAmount() {
     if (this.startDate && this.endDate) {
-      // Check if end date is earlier than start date
+      // Check if the end date is earlier than the start date
       if (this.endDate.getTime() < this.startDate.getTime()) {
         this.totalAmount = 0;
         this.snackBar.open('End date cannot be earlier than start date', 'Close', { duration: 3000 });
       } else {
-        const durationInHours = (this.endDate.getTime() - this.startDate.getTime()) / (1000 * 60 * 60);
-        this.totalAmount = durationInHours * this.ratePerHour;
+        // Calculate the number of full days between the start and end dates
+        const start = new Date(this.startDate);
+        start.setHours(0, 0, 0, 0); // Reset to midnight for a full-day calculation
+        const end = new Date(this.endDate);
+        end.setHours(0, 0, 0, 0); // Reset to midnight for a full-day calculation
+  
+        const durationInDays = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+        
+        // Set the daily rate
+        const dailyRate = 299;
+        
+        // Calculate the total amount based on the daily rate
+        this.totalAmount = durationInDays * dailyRate;
       }
     }
   }
-  
   // Filter function for end date picker to disable dates before start date
   endDateFilter = (date: Date | null): boolean => {
     return date ? date >= this.startDate : false;
@@ -368,5 +380,6 @@ export class BookingComponent {
   const input = event.target.value.replace(regex, '');
     this.userForm.controls['licenseNo'].setValue(input, { emitEvent: false });
   }
+  
   
 }
