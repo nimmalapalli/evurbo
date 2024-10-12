@@ -21,7 +21,7 @@
             </mat-form-field>
             <mat-form-field appearance="outline">
               <mat-label>First Name</mat-label>
-              <input matInput value="{{userDetails?.firstName}}" formControlName="firstName" required  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" >
+              <input matInput value="{{userDetails?.firstName}}" formControlName="firstName"   oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" >
               <mat-error *ngIf="userForm.get('firstName')?.hasError('required')">
                 First Name is required
               </mat-error>
@@ -29,7 +29,7 @@
     
             <mat-form-field appearance="outline">
               <mat-label>Last Name</mat-label>
-              <input matInput value="{{userDetails?.lastName}}" formControlName="lastName" required  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" >
+              <input matInput value="{{userDetails?.lastName}}" formControlName="lastName"  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" >
               <mat-error *ngIf="userForm.get('lastName')?.hasError('required')">
                 Last Name is required
               </mat-error>
@@ -175,7 +175,7 @@
             </div>
             <mat-form-field appearance="outline" >
               <mat-label>Total Amount</mat-label>
-              <input matInput value="₹{{ totalAmount.toFixed(2) }}" readonly>
+              <input type="number" matInput value="{{ totalAmount.toFixed(2) }}" formControlName="bookingAmount"  readonly>
               </mat-form-field>
            
              
@@ -187,10 +187,10 @@
    
         </div>
       <div class="flex-container">
-        <mat-checkbox formControlName="acceptTerms" required>
+        <mat-checkbox formControlName="isAgreeTNC" required>
           I accept the <a href="https://evurbo.energy/terms-and-conditions/" target="_blank">Terms and Conditions</a>
         </mat-checkbox>
-        <mat-error *ngIf="userForm.get('acceptTerms')?.hasError('required')">
+        <mat-error *ngIf="userForm.get('isAgreeTNC')?.hasError('required')">
           You must accept the Terms and Conditions to proceed.
         </mat-error>
 <br>

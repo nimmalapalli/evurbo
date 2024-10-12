@@ -186,8 +186,10 @@ export class BookingComponent {
         
         // Calculate the total amount based on the daily rate
         this.totalAmount = durationInDays * dailyRate;
+        this.userForm.controls['bookingAmount'].setValue(this.totalAmount)
       }
     }
+
   }
   // Filter function for end date picker to disable dates before start date
   endDateFilter = (date: Date | null): boolean => {
@@ -231,7 +233,8 @@ export class BookingComponent {
         endDate:['', Validators.required],
         "bookingStatus": 0,
         // endTime: ['', Validators.required],
-        acceptTerms: [false, Validators.requiredTrue] 
+        bookingAmount:'',
+        isAgreeTNC: [false, Validators.requiredTrue] 
     
     
     });
@@ -265,12 +268,13 @@ export class BookingComponent {
       // You can also do this for other fields if needed
       const selectedGender: number = Number(this.userForm.get('gender')?.value);
       const selectedModel: number = Number(this.userForm.get('model')?.value);
-  
+      const selectedbookingAmmount: number = Number(this.userForm.get('bookingAmount')?.value);
       const data = {
         ...this.userForm.value,
         hub: selectedHub,
         gender: selectedGender,
-        model: selectedModel
+        model: selectedModel,
+        bookingAmount:selectedbookingAmmount
       };
     
       console.log(data)
