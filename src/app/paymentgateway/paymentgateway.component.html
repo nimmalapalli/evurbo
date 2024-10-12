@@ -1,5 +1,11 @@
-<div class="payment-container">
-    <h2>Make a Payment</h2>
-    <button mat-raised-button (click)="initiatePayment()">Pay Now</button>
-  </div>
+<div>
+  <h2>Make a Payment</h2>
+  <form (ngSubmit)="initiatePayment()">
+    <label>Amount:</label>
+    <input type="text" [(ngModel)]="orderDetails.amount" name="amount" required />
 
+    <!-- Add other input fields as needed for user details, product info, etc. -->
+
+    <button type="submit">Pay Now</button>
+  </form>
+</div>
