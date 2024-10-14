@@ -71,7 +71,7 @@
               <div *ngIf="userForm.get('hasLicense')?.value">
                 <mat-form-field appearance="outline" class="license">
                   <mat-label>License Number</mat-label>
-                  <input matInput formControlName="licenseNo"  oninput="this.value = this.value.replace(/[^a-zA-Z0-9-]/g, '').slice(0, 30)" >
+                  <input matInput formControlName="licenseNo"  oninput="this.value = this.value.replace(/[^a-zA-Z0-9-]/g, '').slice(0, 16)" >
                   <mat-error *ngIf="userForm.get('licenseNo')?.hasError('required')">
                     License Number is required
                   </mat-error>
@@ -190,7 +190,7 @@
         <mat-checkbox formControlName="isAgreeTNC" required>
           I accept the <a href="https://evurbo.energy/terms-and-conditions/" target="_blank">Terms and Conditions</a>
         </mat-checkbox>
-        <mat-error *ngIf="userForm.get('isAgreeTNC')?.hasError('required')">
+        <mat-error *ngIf="showError && userForm.get('isAgreeTNC')?.hasError('required')">
           You must accept the Terms and Conditions to proceed.
         </mat-error>
 <br>

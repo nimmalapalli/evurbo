@@ -78,7 +78,7 @@ MatDialogModule
 })
 export class BookingComponent {
   today: Date = new Date();
-
+  showError = false;
   bookingData:any;
   userForm!: FormGroup;
   timeSlots: string[] = [];
@@ -242,7 +242,7 @@ export class BookingComponent {
     this.userForm.get('hasLicense')?.valueChanges.subscribe((isChecked: boolean) => {
       const licenseNumberControl = this.userForm.get('licenseNo');
       if (isChecked) {
-        licenseNumberControl?.setValidators([Validators.required, Validators.pattern('^[A-Z0-9-]{5,15}$')]); // Example pattern
+        licenseNumberControl?.setValidators([Validators.required, Validators.pattern('^[A-Z0-9-]{5,16}$')]); // Example pattern
       } else {
         licenseNumberControl?.clearValidators();
       }
@@ -261,7 +261,7 @@ export class BookingComponent {
 
 
   onSubmit() {
-
+    this.showError = true;
     if (this.userForm.valid) {
       const selectedHub: number = Number(this.userForm.get('hub')?.value);
 
