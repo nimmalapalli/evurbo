@@ -21,9 +21,20 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { PaymentgatewayComponent } from '../paymentgateway/paymentgateway.component';
 import { BookingserviceService } from '../services/bookingservice.service';
 import { BookingdialogComponent } from '../bookingdialog/bookingdialog.component';
-import { MY_DATE_FORMATS } from '../customdate';
 
+import { CustomDateAdapter } from '../custom-date-adapter'; // Import your custom adapter
 
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YY', // Define the parsing format for input
+  },
+  display: {
+    dateInput: 'DD/MM/YY', // Define the display format for input
+    monthYearLabel: 'MMM YYYY', // Format for the month/year label
+    dateA11yLabel: 'LL', // Accessible label
+    monthYearA11yLabel: 'MMMM YYYY', // Accessible month/year label
+  },
+};
 export function ageValidator(minAge: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const dateOfBirth = new Date(control.value);
@@ -72,7 +83,11 @@ MatDialogModule
 
 ],
     schemas:[CUSTOM_ELEMENTS_SCHEMA],
-  providers:[{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
+    providers: [
+      { provide: DateAdapter, useClass: CustomDateAdapter }, // Use custom date adapter
+      { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }, // Use custom date formats
+    ],
+
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.css'
 })
@@ -114,14 +129,7 @@ export class BookingComponent {
 
   }
 
-  // Update the combined form control value when the time changes
-  onTimeChange(selectedTime: string) {
-    const [hour, minute] = this.convertTimeStringToHours(selectedTime);
-    this.startDate.setHours(hour, minute);
-    this.userForm.get('startDate')?.setValue(this.startDate);
-    this.calculateTotalAmount();
 
-  }
   onEndDateChange(event: any) {
     const selectedDate: Date | null = event.value;
     if (selectedDate) {
@@ -135,12 +143,33 @@ export class BookingComponent {
   }
 
   // Handle changes to the end time
-  onEndTimeChange(selectedTime: string) {
-    const [hour, minute] = this.convertTimeStringToHours(selectedTime);
-    this.endDate.setHours(hour, minute);
-    this.userForm.get('endDate')?.setValue(this.endDate);
-    this.calculateTotalAmount();
-  
+ 
+  // Function to generate time slots
+  private generateTimeSlots(): void {
+    for (let hour = 0; hour < 24; hour++) {
+      const time = this.formatTime(hour);
+      this.timeSlots.push(time);
+    }
+  }
+
+  // Helper function to format the hour as hh:mm
+  private formatTime(hour: number): string {
+    return hour < 10 ? `0${hour}:00` : `${hour}:00`; // Return in hh:mm format
+  }
+
+  // Handle time selection change
+  onTimeChange(selectedTime: string): void {
+    this.startDate = new Date();
+    const [hour] = selectedTime.split(':');
+    this.startDate.setHours(+hour);
+    console.log('Start Time:', this.startDate);
+  }
+
+  onEndTimeChange(selectedTime: string): void {
+    this.endDate = new Date();
+    const [hour] = selectedTime.split(':');
+    this.endDate.setHours(+hour);
+    console.log('End Time:', this.endDate);
   }
   // Helper function to convert '08:00 AM' to hours and minutes
   convertTimeStringToHours(time: string): [number, number] {
@@ -171,7 +200,7 @@ export class BookingComponent {
       // Check if the end date is earlier than the start date
       if (this.endDate.getTime() < this.startDate.getTime()) {
         this.totalAmount = 0;
-        this.snackBar.open('End date cannot be earlier than start date', 'Close', { duration: 3000 });
+        // this.snackBar.open('End date cannot be earlier than start date', 'Close', { duration: 3000 });
       } else {
         // Calculate the number of full days between the start and end dates
         const start = new Date(this.startDate);
@@ -303,31 +332,7 @@ export class BookingComponent {
 
  
   }
-  generateTimeSlots() {
-    const startTime = new Date();
-    startTime.setHours(0, 0, 0, 0); // Start from midnight
-
-    const endTime = new Date();
-    endTime.setHours(23, 59, 59, 0); // End at 11:59:59 PM
-
-    while (startTime <= endTime) {
-      const hours = startTime.getHours();
-      const minutes = startTime.getMinutes();
-      const seconds = startTime.getSeconds();
-
-      // Convert to 12-hour format
-      const period = hours >= 12 ? 'PM' : 'AM';
-      const formattedHours = hours % 12 || 12; // Convert 0 to 12 for midnight and noon
-      const formattedMinutes = minutes.toString().padStart(2, '0');
-      const formattedSeconds = seconds.toString().padStart(2, '0');
-
-      const time = `${formattedHours}:${formattedMinutes}:${formattedSeconds} ${period}`;
-      this.timeSlots.push(time);
-
-      // Increment by 1 minute (you can adjust the interval as needed)
-      startTime.setMinutes(startTime.getMinutes() + 1);
-    }
-  }
+ 
 
 
   gethubdeatails(){

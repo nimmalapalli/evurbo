@@ -63,7 +63,7 @@
     
           <div class="licenence-checkbox-container">
             <div class="child">
-              <mat-checkbox formControlName="hasLicense">Do you have a valid License?
+              <mat-checkbox formControlName="hasLicense">License number as required field
            
               </mat-checkbox>
             </div>
@@ -127,7 +127,15 @@
             <div class="form-grid">
               <mat-form-field appearance="outline" class="exampli-field">
                 <mat-label>Start Date</mat-label>
-                <input matInput [matDatepicker]="pickerStart" (dateChange)="onDateChange($event)" [value]="startDate | date:'dd-MM-yyyy'" [min]="today" required readonly>
+                <input 
+                  matInput 
+                  [matDatepicker]="pickerStart" 
+                  (dateChange)="onDateChange($event)" 
+                  [(ngModel)]="startDate"  
+                  [min]="today" 
+                  required 
+                  placeholder="dd/mm/yyyy" readonly
+                >
                 <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
                 <mat-datepicker #pickerStart></mat-datepicker>
                 <mat-error *ngIf="userForm.get('startDate')?.hasError('required')">
@@ -149,8 +157,16 @@
             
               <mat-form-field appearance="outline" class="exampli-field">
                 <mat-label>End Date</mat-label>
-                <input matInput [matDatepicker]="pickerEnd" (dateChange)="onEndDateChange($event)" [value]="endDate | date:'dd-MM-yyyy'"    [min]="startDate" 
-                [matDatepickerFilter]="endDateFilter"  required readonly>
+                <input 
+                  matInput 
+                  [matDatepicker]="pickerEnd" 
+                  (dateChange)="onEndDateChange($event)" 
+                  [(ngModel)]="endDate"  
+                  [min]="startDate"  
+                  [matDatepickerFilter]="endDateFilter"
+                  required 
+                  placeholder="dd/mm/yyyy" readonly
+                >
                 <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
                 <mat-datepicker #pickerEnd></mat-datepicker>
                 <mat-error *ngIf="userForm.get('endDate')?.hasError('required')">
@@ -160,6 +176,7 @@
                   End Date cannot be earlier than Start Date
                 </mat-error>
               </mat-form-field>
+         
             
               <mat-form-field appearance="outline" class="exampli-field">
                 <mat-label>End Time</mat-label>
@@ -193,7 +210,7 @@
         <mat-error *ngIf="showError && userForm.get('isAgreeTNC')?.hasError('required')">
           You must accept the Terms and Conditions to proceed.
         </mat-error>
-<br>
+<br><br>
 
       <button class="submit-btn" mat-raised-button color="primary" type="submit">Proceed</button>
     </div><br>
