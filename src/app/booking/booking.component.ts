@@ -248,7 +248,7 @@ export class BookingComponent {
       dob: ['', [Validators.required,ageValidator(18)]],
       email: ['', [Validators.required, Validators.email]],
      // Checkbox, starts unchecked
-      licenseNo: ['',[Validators.required, Validators.pattern('^[A-Z0-9-]{5,16}$')]] ,
+      licenseNo: ['',[Validators.required, Validators.pattern('^[A-Z0-9-]{5,16}$'), Validators.maxLength(16),Validators.minLength(15)]] ,
       gender: [null, Validators.required],
       hub: [null,Validators.required],
       model: [null, Validators.required],
