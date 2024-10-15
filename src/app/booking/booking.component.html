@@ -61,17 +61,20 @@
               </mat-error>
             </mat-form-field>
     
-      
-                <mat-form-field appearance="outline" class="license">
-                  <mat-label>License Number</mat-label>
-                  <input matInput formControlName="licenseNo"  oninput="this.value = this.value.replace(/[^a-zA-Z0-9-]/g, '').slice(0, 16)" >
-                  <mat-error *ngIf="userForm.get('licenseNo')?.hasError('required')">
-                    License Number is required
-                  </mat-error>
-                  <mat-error *ngIf="userForm.get('licenseNo')?.hasError('pattern')">
-                    Invalid License Number
-                  </mat-error>
-                </mat-form-field>
+            <mat-form-field appearance="outline" class="license">
+              <mat-label>License Number</mat-label>
+              <input 
+                matInput 
+                formControlName="licenseNo"  
+                oninput="this.value = this.value.replace(/[^a-zA-Z0-9-]/g, '').slice(0, 16)" 
+              >
+              <mat-error *ngIf="userForm.get('licenseNo')?.hasError('required')">
+                License Number is required
+              </mat-error>
+              <mat-error *ngIf="userForm.get('licenseNo')?.hasError('pattern')">
+                Invalid License Number (Only alphanumeric characters and hyphens allowed, max 16 characters)
+              </mat-error>
+            </mat-form-field>
 
        
       
