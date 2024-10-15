@@ -7,7 +7,7 @@ import { MatDatepicker, MatDatepickerInputEvent, MatDatepickerToggle } from '@an
 import { MatCheckbox } from '@angular/material/checkbox';
 import { MatNativeDateModule, NativeDateAdapter } from '@angular/material/core';
 import { MatButton, MatButtonModule } from '@angular/material/button';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker'; 
 import {MatIconModule} from '@angular/material/icon'; 
@@ -76,7 +76,7 @@ MatSnackBarModule,
 CommonModule,
 PaymentgatewayComponent,
 BookingdialogComponent,
-MatDialogModule
+MatDialogModule,
 
 
 
@@ -107,6 +107,9 @@ export class BookingComponent {
   totalAmount: number = 0;
   userDetails:any;
   code:any;
+  isStartDateSelected: boolean = false;
+  isEndDateSelected: boolean = false;
+  isStarttimeSelected: boolean = false;
   constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog) {
     this.getgenderdeatails();
     this.generateTimeSlots();
@@ -126,6 +129,7 @@ export class BookingComponent {
     this.startDate.setHours(parseInt(time.split(':')[0]), parseInt(time.split(':')[1])); // Keep the time part
     this.userForm.get('startDate')?.setValue(this.startDate); // Update the form control
     this.calculateTotalAmount();
+    this.isStartDateSelected = true; 
 
   }
 
@@ -138,10 +142,19 @@ export class BookingComponent {
       this.endDate.setHours(parseInt(time.split(':')[0]), parseInt(time.split(':')[1]));
       this.userForm.get('endDate')?.setValue(this.endDate);
     }
-    this.calculateTotalAmount();
+ 
+    this.isEndDateSelected = true; 
  
   }
 
+ 
+
+  // Implement your method to generate time slots
+  getTimeSlots(): string[] {
+    const slots: string[] = [];
+    // Generate your time slots here
+    return slots;
+  }
   // Handle changes to the end time
  
   // Function to generate time slots
@@ -159,42 +172,27 @@ export class BookingComponent {
 
   // Handle time selection change
   onTimeChange(selectedTime: string): void {
-    this.startDate = new Date();
-    const [hour] = selectedTime.split(':');
-    this.startDate.setHours(+hour);
-    console.log('Start Time:', this.startDate);
+    console.log('Selected Time:', selectedTime); // Debugging line
+    // Since selectedTime should now be a string, you can split it safely
+  
   }
 
   onEndTimeChange(selectedTime: string): void {
-    this.endDate = new Date();
-    const [hour] = selectedTime.split(':');
-    this.endDate.setHours(+hour);
-    console.log('End Time:', this.endDate);
-  }
-  // Helper function to convert '08:00 AM' to hours and minutes
-  convertTimeStringToHours(time: string): [number, number] {
-    const [hourMinute, modifier] = time.split(' ');
-    let [hour, minute] = hourMinute.split(':').map(Number);
-    
-    if (modifier === 'PM' && hour !== 12) {
-      hour += 12;
-    } else if (modifier === 'AM' && hour === 12) {
-      hour = 0;
+    console.log('Selected End Time:', selectedTime); // Debugging line
+
+    this.calculateTotalAmount();
+}
+  endDateValidator(control: { value: string | number | Date; }): { [key: string]: boolean } | null {
+    const startDateTime = new Date(this.startDate);
+    const endDateTime = new Date(control.value);
+
+    // Check if the end date is at least 24 hours after the start date
+    if (endDateTime.getTime() < startDateTime.getTime() + 24 * 60 * 60 * 1000) {
+      return { minGap: true }; // Error if less than 24 hours
     }
-    
-    return [hour, minute];
+    return null; // Valid
   }
-  updateDateWithTime(date: Date, time: string, type: 'start' | 'end') {
-    const [hours, minutes] = this.convertTimeTo24Hour(time);
-    date.setHours(hours);
-    date.setMinutes(minutes);
-    
-    if (type === 'start') {
-      this.startDate = date;
-    } else {
-      this.endDate = date;
-    }
-  }
+ 
   calculateTotalAmount() {
     if (this.startDate && this.endDate) {
       // Check if the end date is earlier than the start date
@@ -249,8 +247,8 @@ export class BookingComponent {
       mobileNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       dob: ['', [Validators.required,ageValidator(18)]],
       email: ['', [Validators.required, Validators.email]],
-      hasLicense: [false],  // Checkbox, starts unchecked
-      licenseNo: [''] ,
+     // Checkbox, starts unchecked
+      licenseNo: ['',[Validators.required, Validators.pattern('^[A-Z0-9-]{5,16}$')]] ,
       gender: [null, Validators.required],
       hub: [null,Validators.required],
       model: [null, Validators.required],
@@ -259,7 +257,7 @@ export class BookingComponent {
         // startTime: ['', Validators.required],
  
  
-        endDate:['', Validators.required],
+        endDate:['',[ Validators.required,this.endDateValidator.bind(this)]],
         "bookingStatus": 0,
         // endTime: ['', Validators.required],
         bookingAmount:'',
@@ -268,16 +266,8 @@ export class BookingComponent {
     
     });
 
-    this.userForm.get('hasLicense')?.valueChanges.subscribe((isChecked: boolean) => {
-      const licenseNumberControl = this.userForm.get('licenseNo');
-      if (isChecked) {
-        licenseNumberControl?.setValidators([Validators.required, Validators.pattern('^[A-Z0-9-]{5,16}$')]); // Example pattern
-      } else {
-        licenseNumberControl?.clearValidators();
-      }
-      licenseNumberControl?.updateValueAndValidity();
-    });
   
+
   }
 
   
