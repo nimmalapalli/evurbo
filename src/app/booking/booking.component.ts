@@ -170,17 +170,23 @@ export class BookingComponent {
     return hour < 10 ? `0${hour}:00` : `${hour}:00`; // Return in hh:mm format
   }
 
-  // Handle time selection change
-  onTimeChange(selectedTime: string): void {
-    console.log('Selected Time:', selectedTime); // Debugging line
-    // Since selectedTime should now be a string, you can split it safely
-  
-  }
+// Handles start time change
+onTimeChange(selectedTime: string): void {
+  console.log(selectedTime)
+  const [hour, minute] = selectedTime.split(':').map(Number);
+  this.startDate.setHours(hour, minute);
+  this.userForm.get('startDate')?.setValue(this.startDate);
+  this.isStarttimeSelected = true;
+  this.calculateTotalAmount();
+}
 
-  onEndTimeChange(selectedTime: string): void {
-    console.log('Selected End Time:', selectedTime); // Debugging line
-
-    this.calculateTotalAmount();
+// Handles end time change
+onEndTimeChange(selectedTime: string): void {
+  console.log(selectedTime)
+  const [hour, minute] = selectedTime.split(':').map(Number);
+  this.endDate.setHours(hour, minute);
+  this.userForm.get('endDate')?.setValue(this.endDate);
+  this.calculateTotalAmount();
 }
   endDateValidator(control: { value: string | number | Date; }): { [key: string]: boolean } | null {
     const startDateTime = new Date(this.startDate);
@@ -195,29 +201,29 @@ export class BookingComponent {
  
   calculateTotalAmount() {
     if (this.startDate && this.endDate) {
-      // Check if the end date is earlier than the start date
+      // Ensure end date is not earlier than start date
       if (this.endDate.getTime() < this.startDate.getTime()) {
         this.totalAmount = 0;
-        // this.snackBar.open('End date cannot be earlier than start date', 'Close', { duration: 3000 });
       } else {
-        // Calculate the number of full days between the start and end dates
+        // Calculate total days, including partial days as full days
         const start = new Date(this.startDate);
-        start.setHours(0, 0, 0, 0); // Reset to midnight for a full-day calculation
         const end = new Date(this.endDate);
-        end.setHours(0, 0, 0, 0); // Reset to midnight for a full-day calculation
+        
+        // Difference in milliseconds
+        const diffInMs = end.getTime() - start.getTime();
+        const diffInHours = Math.ceil(diffInMs / (1000 * 60 * 60));
+        
+        // Calculate total amount: apply ₹299 for each day (or partial day)
+        const fullDays = Math.ceil(diffInHours / 24); // Includes any partial day as a full day
+        const dailyRate = 299; // Daily rate per 24-hour period
+        this.totalAmount = fullDays * dailyRate;
   
-        const durationInDays = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
-        
-        // Set the daily rate
-        const dailyRate = 299;
-        
-        // Calculate the total amount based on the daily rate
-        this.totalAmount = durationInDays * dailyRate;
-        this.userForm.controls['bookingAmount'].setValue(this.totalAmount)
+        // Update form control with calculated amount
+        this.userForm.controls['bookingAmount'].setValue(this.totalAmount);
       }
     }
-
   }
+  
   // Filter function for end date picker to disable dates before start date
   endDateFilter = (date: Date | null): boolean => {
     return date ? date >= this.startDate : false;
