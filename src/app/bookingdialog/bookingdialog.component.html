@@ -2,34 +2,16 @@
 <div class="dialog-container">
 
   <h3 class="heading">Booking Details</h3>
-  <p>Booking Number:  <b>{{ data.name.bookingNo }}</b> </p>
-  <p>Booking Start Date: <b>{{ data.name.startDate | date:'short' }}</b> </p>
-  <p>Booking End Date: <b>{{ data.name.endDate | date:'short' }}</b> </p><br>
-
+  <p>Booking Number:  <i>{{ data.name.bookingNo }}</i> </p>
+  <p>Booking Start Date: <i>{{ data.name.startDate | date:'short' }}</i> </p>
+  <p>Booking End Date: <i>{{ data.name.endDate | date:'short' }}</i> </p>
+  <p>Booking Ammount: <i>{{ data.name.bookingAmmount  }}</i> </p><br>
     <button  color="primary" mat-raised-button routerLink="/" >Pay Now</button>&nbsp;&nbsp;
     <button mat-raised-button color="warn"  routerLink="https://evurbo.energy/">No</button>
 
-    <!-- <div *ngIf="showConfirmation" class="confirmation">
-      <p>Proceed with payment ?</p><br>
-      <button mat-raised-button color="primary" (click)="onConfirm(true)" routerLink="/">Yes</button>
-      <button mat-raised-button color="warn" (click)="onConfirm(false)" routerLink="https://evurbo.energy/">No</button>
-    </div>  -->
+
   </div>
-<!--     
-  <p class="heading">Booking Number: {{ data.name.bookingNo }}</p>
- 
 
- <p class="heading">Booking Start Date: {{ data.name.startDate | date:'short' }}</p>
- <p class="content"> Booking End Date:{{ data.name.endDate | date:'short' }}</p><br>
-
- <button *ngIf="!showConfirmation" mat-raised-button (click)="confirmPayment()">Pay Now</button><br>
-
-
- <div *ngIf="showConfirmation" class="confirmation">
-   <p>Proceed with payment ?</p><br>
-   <button mat-raised-button color="primary" (click)="onConfirm(true)" routerLink="/">Yes</button>&nbsp;&nbsp;
-   <button mat-raised-button color="warn" (click)="onConfirm(false)" routerLink="https://evurbo.energy/">No</button>
- </div> -->
 
   </div>
 

@@ -309,8 +309,9 @@ onEndTimeChange(selectedTime: string): void {
         this.snackBar.open(JSON.stringify(res.message));
     this.dialog.open(BookingdialogComponent, {
           data: {name:this.bookingData},
-          width:'400px',
-          height:'250px'
+          width:'500px',
+          height:'300px',
+          panelClass:'dialog'
         });
 
       })
@@ -322,7 +323,7 @@ onEndTimeChange(selectedTime: string): void {
     this.dialog.open(BookingdialogComponent, {
       data: {name:this.bookingData},
       width:'500px',
-      height:'280px',
+      height:'300px',
       panelClass:'dialog'
     });
 
