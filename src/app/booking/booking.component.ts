@@ -110,6 +110,9 @@ export class BookingComponent {
   isStartDateSelected: boolean = false;
   isEndDateSelected: boolean = false;
   isStarttimeSelected: boolean = false;
+  filteredEndTimes: string[] = [];
+  startTime!: string;
+  endTime!: string;
   constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog) {
     this.getgenderdeatails();
     this.generateTimeSlots();
@@ -129,7 +132,8 @@ export class BookingComponent {
     this.startDate.setHours(parseInt(time.split(':')[0]), parseInt(time.split(':')[1])); // Keep the time part
     this.userForm.get('startDate')?.setValue(this.startDate); // Update the form control
     this.calculateTotalAmount();
-    this.isStartDateSelected = true; 
+    this.isStarttimeSelected = true; 
+    this.filteredEndTimes = [...this.timeSlots]; 
 
   }
 
@@ -144,10 +148,29 @@ export class BookingComponent {
     }
  
     this.isEndDateSelected = true; 
+    this.updateEndTimes();
  
   }
 
- 
+  // Custom validator for checking time mismatch when both dates are the same
+  timeValidator: ValidatorFn = (group: AbstractControl): {[key: string]: boolean} | null => {
+    const startDate = group.get('startDate')?.value;
+    const endDate = group.get('endDate')?.value;
+    const startTime = group.get('startTime')?.value;
+    const endTime = group.get('endTime')?.value;
+
+    if (startDate && endDate && startTime && endTime && startDate.getTime() === endDate.getTime()) {
+      const startHour = parseInt(startTime.split(':')[0], 10);
+      const startMinute = parseInt(startTime.split(':')[1], 10);
+      const endHour = parseInt(endTime.split(':')[0], 10);
+      const endMinute = parseInt(endTime.split(':')[1], 10);
+
+      if (endHour < startHour || (endHour === startHour && endMinute <= startMinute)) {
+        return { timeMismatch: true };
+      }
+    }
+    return null;
+  };
 
   // Implement your method to generate time slots
   getTimeSlots(): string[] {
@@ -178,6 +201,7 @@ onTimeChange(selectedTime: string): void {
   this.userForm.get('startDate')?.setValue(this.startDate);
   this.isStarttimeSelected = true;
   this.calculateTotalAmount();
+  this.updateEndTimes();
 }
 
 // Handles end time change
@@ -198,7 +222,21 @@ onEndTimeChange(selectedTime: string): void {
     }
     return null; // Valid
   }
- 
+  updateEndTimes() {
+    if (this.startDate && this.endDate && this.startDate.getTime() === this.endDate.getTime()) {
+      // Filter end times to be only after the start time when dates are the same
+      const startHour = parseInt(this.startTime.split(':')[0], 10);
+      const startMinute = parseInt(this.startTime.split(':')[1], 10);
+      this.filteredEndTimes = this.timeSlots.filter((time) => {
+        const [endHour, endMinute] = time.split(':').map(t => parseInt(t, 10));
+        return endHour > startHour || (endHour === startHour && endMinute > startMinute);
+      });
+    } else {
+      // If the dates are different, show all time options
+      this.filteredEndTimes = [...this.timeSlots];
+    }
+  }
+
   calculateTotalAmount() {
     if (this.startDate && this.endDate) {
       // Ensure end date is not earlier than start date
@@ -263,7 +301,7 @@ onEndTimeChange(selectedTime: string): void {
         // startTime: ['', Validators.required],
  
  
-        endDate:['',[ Validators.required,this.endDateValidator.bind(this)]],
+        endDate:['',[ Validators.required, this.timeValidator]],
         "bookingStatus": 0,
         // endTime: ['', Validators.required],
         bookingAmount:'',
@@ -272,7 +310,10 @@ onEndTimeChange(selectedTime: string): void {
     
     });
 
-  
+      this.userForm.get('endDate')?.valueChanges.subscribe(() => {
+      this.updateEndTimes();
+    });
+
 
   }
 
@@ -287,6 +328,7 @@ onEndTimeChange(selectedTime: string): void {
 
   onSubmit() {
     this.showError = true;
+    this.userForm.markAllAsTouched();  
     if (this.userForm.valid) {
       const selectedHub: number = Number(this.userForm.get('hub')?.value);
 

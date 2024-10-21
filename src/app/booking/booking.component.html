@@ -122,6 +122,7 @@
             </mat-form-field>
             <div class="form-grid">
 <!-- Start Date -->
+<!-- Start Date -->
 <mat-form-field appearance="outline" class="exampli-field">
   <mat-label>Start Date</mat-label>
   <input 
@@ -133,6 +134,7 @@
     required 
     placeholder="dd/mm/yyyy"
     readonly
+  
   >
   <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
   <mat-datepicker #pickerStart></mat-datepicker>
@@ -146,14 +148,15 @@
   <mat-label>Start Time</mat-label>
   <mat-select 
     (selectionChange)="onTimeChange($event.value)" 
-    [disabled]="!isStartDateSelected" 
     required 
-  >
+    [(ngModel)]="startTime"
+    [disabled]="!isStarttimeSelected"
+    >
     <mat-option *ngFor="let time of timeSlots" [value]="time">
       {{ time }}
     </mat-option>
   </mat-select>
-  <mat-error *ngIf="!isStarttimeSelected">
+  <mat-error *ngIf="isStarttimeSelected">
     Start Time is required
   </mat-error>
 </mat-form-field>
@@ -167,18 +170,14 @@
     (dateChange)="onEndDateChange($event)" 
     [(ngModel)]="endDate"  
     [min]="startDate"  
-    [matDatepickerFilter]="endDateFilter"
     required 
-    placeholder="dd/mm/yyyy" 
+    placeholder="dd/mm/yyyy"
     readonly
   >
   <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
   <mat-datepicker #pickerEnd></mat-datepicker>
   <mat-error *ngIf="userForm.get('endDate')?.hasError('required')">
     End Date is required
-  </mat-error>
-  <mat-error *ngIf="userForm.get('endDate')?.hasError('minGap')">
-    End Date must be at least 24 hours after Start Date
   </mat-error>
 </mat-form-field>
 
@@ -188,19 +187,20 @@
   <mat-select 
     (selectionChange)="onEndTimeChange($event.value)" 
     [disabled]="!isEndDateSelected" 
-    required
-  >
-    <mat-option *ngFor="let time of timeSlots" [value]="time">
+    [(ngModel)]="endTime" 
+    required>
+    <mat-option *ngFor="let time of filteredEndTimes" [value]="time">
       {{ time }}
     </mat-option>
   </mat-select>
   <mat-error *ngIf="!isEndDateSelected">
     End Time is required
   </mat-error>
-  <mat-error *ngIf="userForm.get('endDate')?.hasError('minGap')">
-    End Time must be at least 24 hours after Start Time
+  <mat-error *ngIf="userForm?.hasError('timeMismatch')">
+    End Time must be after Start Time if both dates are the same.
   </mat-error>
 </mat-form-field>
+
 
             </div>
             <mat-form-field appearance="outline" >
