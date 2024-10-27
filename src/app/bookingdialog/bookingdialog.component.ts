@@ -54,7 +54,7 @@ export class BookingdialogComponent {
     });
   }
   initiateRazorpayPayment(orderId: string, amount: number, currency: string) {
-    debugger
+   
     const RazorpayOptions = {
       key: 'rzp_test_7xBELXxLBhucXw',
       amount: amount,
