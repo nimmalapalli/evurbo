@@ -6,10 +6,25 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PaymentService {
-  private apiUrl = 'http://localhost:8000/api';
+  
+  private apiUrl = 'https://ccavenue-xw9x.onrender.com/api'; // Update with your backend API URL
+
   constructor(private http: HttpClient) {}
 
-  initiatePayment(orderDetails: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/initiate`, orderDetails);
+  // Create a new order
+  createOrder(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/payment/create-order`, data);
+  }
+
+  // Verify payment
+  verifyPayment(orderId: string, paymentId: string, signature: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/verifyOrder`, {
+      order_id: orderId,
+      payment_id: paymentId
+    }, {
+      headers: {
+        'x-razorpay-signature': signature
+      }
+    });
   }
 }

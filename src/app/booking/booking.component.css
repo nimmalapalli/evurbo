@@ -1,113 +1,94 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-.container{
-    padding: 2%;
- 
-}
 .book-form-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: space-between;
-    padding: 2%;
-  
-  }
-  
-  .card-1 {
-    flex: 1 1 calc(50% - 20px); /* Makes the form fields take up 50% of the row */
+    overflow: auto; /* Enable scrolling if content exceeds container */
+    max-width: 100%; /* Prevents overflow of the container */
+}
+
+.card-1 {
+    flex: 1 1 calc(50% - 20px);
     display: flex;
     flex-direction: column;
-    gap: 16px; /* Adds spacing between the form fields */
-  }
-  
-  .mat-card {
-
-    border-radius: 8px;
-
-  }
-  
-button{
-  width: 200px;
-
-  height: 40px;
+    gap: 16px;
 }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
+
+.mat-card {
+    border-radius: 8px;
+}
+
+button {
+    width: 200px;
+    height: 40px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
     .card-1 {
-      flex: 1 1 100%; /* For smaller screens, the cards will stack */
+        flex: 1 1 100%;
     }
-    .submit-btn{
-    width: 100%;
+    .submit-btn {
+        width: 100%;
     }
-  }
+}
 
-
-  .startdate-c{
+.startdate-c {
     width: 380px;
     height: 60px;
- 
+}
 
- 
-  }
-  .form-grid {
+.form-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
-  }
-  
-  .exampli-field {
+}
+
+.exampli-field,
+.license {
     flex: 1 1 calc(50% - 16px);
-  }
-  .license{
-    flex: 1 1 calc(50% - 16px);
-  }
-  
-  @media (max-width: 768px) {
+}
+
+@media (max-width: 768px) {
     .exampli-field {
-      flex: 1 1 100%;
+        flex: 1 1 100%;
     }
-  }
-  
-  .licenence-checkbox-container{
+}
+
+.licenence-checkbox-container {
     display: flex;
     flex-flow: wrap row;
     align-items: flex-start;
     justify-content: flex-start;
     row-gap: 20px;
-
-  }
-  .child{
-
-    flex: 1 1 calc(50% - 16px);
-  }
-
-  .dialog .mat-dialog-container {
-
-     --color: black;
-    --border-radius: 25px !important;
-  }
-
-  .explore-content{
-    font-family: "Poppins", sans-serif;
-    font-weight: 300;
- 
-  }
-  .end-content{
-    font-family: "Poppins", sans-serif;
-    font-weight: 500;
- 
-  }
-
-
-/* Flex container for checkbox and error message */
-.flex-container {
-
-padding-left:2% ;
-
 }
 
+.child {
+    flex: 1 1 calc(50% - 16px);
+}
+
+.dialog .mat-dialog-container {
+    --color: black;
+    --border-radius: 25px !important;
+}
+
+.explore-content {
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+}
+
+.end-content {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+}
+
+
+mat-card{
+  padding: 2%;
+}
 
 
 

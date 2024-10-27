@@ -5,8 +5,8 @@
   <p>Booking Number:  <i>{{ data.name.bookingNo }}</i> </p>
   <p>Booking Start Date: <i>{{ data.name.startDate | date:'short' }}</i> </p>
   <p>Booking End Date: <i>{{ data.name.endDate | date:'short' }}</i> </p>
-  <p>Booking Ammount: <i>{{ data.name.bookingAmmount  }}</i> </p><br>
-    <button  color="primary" mat-raised-button routerLink="/" >Pay Now</button>&nbsp;&nbsp;
+  <p>Booking Ammount: <i>{{ data.name.bookingAmount}}</i> </p><br>
+ <button  color="primary" mat-raised-button (click)="payment()" >Pay Now</button>&nbsp;&nbsp;
     <button mat-raised-button color="warn"  routerLink="https://evurbo.energy/">No</button>
 
 
@@ -16,6 +16,3 @@
   </div>
 
  
-
- 
-  
