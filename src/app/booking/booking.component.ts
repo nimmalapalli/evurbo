@@ -104,7 +104,7 @@ export class BookingComponent {
   endDate: Date = new Date();
   genderDetails:any;
   ratePerHour: number = 100; // Example rate per hour in INR
-  totalAmount: number = 0;
+  totalAmount: number | undefined;
   userDetails:any;
   code:any;
   isStartDateSelected: boolean = false;
@@ -113,6 +113,10 @@ export class BookingComponent {
   filteredEndTimes: string[] = [];
   startTime!: string;
   endTime!: string;
+  minEndDate: Date;
+
+  // Assuming daily rate is constant
+  dailyRate = 299;
   constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog) {
     this.getgenderdeatails();
     this.generateTimeSlots();
@@ -122,7 +126,54 @@ export class BookingComponent {
       category:'MODEL'
     })
  this.gethubdeatails();
- this.getmodeldeatails()
+ this.getmodeldeatails();
+ 
+ this.userForm = this.fb.group({
+  "bookingID": 0,
+  bookingNo: [''],
+  firstName: ['', Validators.required],
+  lastName: ['', Validators.required],
+  mobileNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+  dob: ['', [Validators.required,ageValidator(18)]],
+  email: ['', [Validators.required, Validators.email]],
+ // Checkbox, starts unchecked
+  licenseNo: ['',[Validators.required, Validators.pattern('^[A-Z0-9-]{5,16}$'), Validators.maxLength(16),Validators.minLength(15)]] ,
+  gender: [null, Validators.required],
+  hub: [null,Validators.required],
+  model: [null, Validators.required],
+
+    startDate: ['', Validators.required],
+    // startTime: ['', Validators.required],
+
+
+    endDate:['',[ Validators.required, this.timeValidator]],
+    "bookingStatus": 0,
+    // endTime: ['', Validators.required],
+    bookingAmount:'',
+    isAgreeTNC: [false, Validators.requiredTrue] ,
+    startTime: ['', Validators.required],
+    endTime: ['', [Validators.required]]
+
+
+});
+this.userForm.get('startTime')?.valueChanges.subscribe(() => {
+  this.isStarttimeSelected = true;
+  this.filterEndTimes();
+});
+this.userForm.get('endTime')?.valueChanges.subscribe(() => {
+  this.isEndDateSelected = true;
+  this.filterEndTimes();
+});
+
+  this.userForm.get('endDate')?.valueChanges.subscribe(() => {
+  this.updateEndTimes();
+});
+this.minEndDate = this.calculateTomorrowDate();
+  }
+  calculateTomorrowDate(): Date {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1); // Add 1 day to current date
+    return tomorrow;
   }
    // Update the combined form control value when the date changes
    onDateChange(event:any) {
@@ -134,6 +185,11 @@ export class BookingComponent {
     this.calculateTotalAmount();
     this.isStarttimeSelected = true; 
     this.filteredEndTimes = [...this.timeSlots]; 
+    if (this.startDate) {
+      const newMinDate = new Date(this.startDate);
+      newMinDate.setDate(newMinDate.getDate() + 1);
+      this.minEndDate = newMinDate;
+    }
 
   }
 
@@ -149,6 +205,7 @@ export class BookingComponent {
  
     this.isEndDateSelected = true; 
     this.updateEndTimes();
+    this.calculateTotalAmount();
  
   }
 
@@ -194,24 +251,24 @@ export class BookingComponent {
   }
 
 // Handles start time change
-onTimeChange(selectedTime: string): void {
-  console.log(selectedTime)
-  const [hour, minute] = selectedTime.split(':').map(Number);
-  this.startDate.setHours(hour, minute);
-  this.userForm.get('startDate')?.setValue(this.startDate);
-  this.isStarttimeSelected = true;
-  this.calculateTotalAmount();
-  this.updateEndTimes();
-}
+// onTimeChange(selectedTime: string): void {
+//   console.log(selectedTime)
+//   const [hour, minute] = selectedTime.split(':').map(Number);
+//   this.startDate.setHours(hour, minute);
+//   this.userForm.get('startDate')?.setValue(this.startDate);
+//   this.isStarttimeSelected = true;
+//   this.calculateTotalAmount();
+//   this.updateEndTimes();
+// }
 
-// Handles end time change
-onEndTimeChange(selectedTime: string): void {
-  console.log(selectedTime)
-  const [hour, minute] = selectedTime.split(':').map(Number);
-  this.endDate.setHours(hour, minute);
-  this.userForm.get('endDate')?.setValue(this.endDate);
-  this.calculateTotalAmount();
-}
+// // Handles end time change
+// onEndTimeChange(selectedTime: string): void {
+//   console.log(selectedTime)
+//   const [hour, minute] = selectedTime.split(':').map(Number);
+//   this.endDate.setHours(hour, minute);
+//   this.userForm.get('endDate')?.setValue(this.endDate);
+//   this.calculateTotalAmount();
+// }
   endDateValidator(control: { value: string | number | Date; }): { [key: string]: boolean } | null {
     const startDateTime = new Date(this.startDate);
     const endDateTime = new Date(control.value);
@@ -237,30 +294,33 @@ onEndTimeChange(selectedTime: string): void {
     }
   }
 
-  calculateTotalAmount() {
+  calculateTotalAmount(): void {
     if (this.startDate && this.endDate) {
-      // Ensure end date is not earlier than start date
-      if (this.endDate.getTime() < this.startDate.getTime()) {
-        this.totalAmount = 0;
-      } else {
-        // Calculate total days, including partial days as full days
-        const start = new Date(this.startDate);
-        const end = new Date(this.endDate);
-        
-        // Difference in milliseconds
-        const diffInMs = end.getTime() - start.getTime();
-        const diffInHours = Math.ceil(diffInMs / (1000 * 60 * 60));
-        
-        // Calculate total amount: apply ₹299 for each day (or partial day)
-        const fullDays = Math.ceil(diffInHours / 24); // Includes any partial day as a full day
-        const dailyRate = 299; // Daily rate per 24-hour period
-        this.totalAmount = fullDays * dailyRate;
-  
-        // Update form control with calculated amount
-        this.userForm.controls['bookingAmount'].setValue(this.totalAmount);
+      const start = new Date(this.startDate);
+      const end = new Date(this.endDate);
+      
+      // Ensure that the end date is after or the same as the start date
+      if (end < start) {
+        alert('End date must be after the start date.');
+        this.totalAmount = undefined;
+        return;
       }
+
+      // Calculate difference in days
+      const timeDifference = end.getTime() - start.getTime();
+      const dayDifference = timeDifference / (1000 * 3600 * 24); // Convert time difference to days
+      
+      // If the day difference is positive or zero, calculate total
+      if (dayDifference >= 0) {
+        this.totalAmount = dayDifference * this.dailyRate;
+      } else {
+        this.totalAmount = undefined;
+      }
+      this.userForm.controls['bookingAmount'].setValue(this.totalAmount);
     }
   }
+  
+  
   
   // Filter function for end date picker to disable dates before start date
   endDateFilter = (date: Date | null): boolean => {
@@ -283,41 +343,36 @@ onEndTimeChange(selectedTime: string): void {
   }
   ngOnInit() {
  
-    this.userForm = this.fb.group({
-      "bookingID": 0,
-      bookingNo: [''],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      mobileNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      dob: ['', [Validators.required,ageValidator(18)]],
-      email: ['', [Validators.required, Validators.email]],
-     // Checkbox, starts unchecked
-      licenseNo: ['',[Validators.required, Validators.pattern('^[A-Z0-9-]{5,16}$'), Validators.maxLength(16),Validators.minLength(15)]] ,
-      gender: [null, Validators.required],
-      hub: [null,Validators.required],
-      model: [null, Validators.required],
-    
-        startDate: ['', Validators.required],
-        // startTime: ['', Validators.required],
- 
- 
-        endDate:['',[ Validators.required, this.timeValidator]],
-        "bookingStatus": 0,
-        // endTime: ['', Validators.required],
-        bookingAmount:'',
-        isAgreeTNC: [false, Validators.requiredTrue] 
-    
-    
-    });
-
-      this.userForm.get('endDate')?.valueChanges.subscribe(() => {
-      this.updateEndTimes();
-    });
-
 
   }
 
-  
+  timeMismatchValidator(control: { value: any; }) {
+    const startTime = this.userForm.get('startTime')?.value;
+    const endTime = control.value;
+
+    if (startTime && endTime && startTime === endTime) {
+      return { timeMismatch: true };
+    }
+    return null; // No error
+  }
+  filterEndTimes() {
+    // Logic to filter available end times based on selected start time
+    if (this.startTime) {
+      this.filteredEndTimes = this.timeSlots.filter(time => time > this.startTime);
+    } else {
+      this.filteredEndTimes = [...this.timeSlots];
+    }
+  }
+
+  onTimeChange(value: string) {
+    console.log('Start time changed:', value);
+    this.userForm.get('startTime')?.setValue(value);
+  }
+
+  onEndTimeChange(value: string) {
+    console.log('End time changed:', value);
+    this.userForm.get('endTime')?.setValue(value);
+  }
 
   generateBookingNo() {
     // Example logic to generate a unique booking number
