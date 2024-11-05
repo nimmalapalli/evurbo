@@ -301,7 +301,7 @@ this.minEndDate = this.calculateTomorrowDate();
       
       // Ensure that the end date is after or the same as the start date
       if (end < start) {
-        alert('End date must be after the start date.');
+  
         this.totalAmount = undefined;
         return;
       }
