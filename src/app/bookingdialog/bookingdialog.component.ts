@@ -19,7 +19,7 @@ export class BookingdialogComponent {
   readonly dialogRef = inject(MatDialogRef<BookingdialogComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
   paymentid:any;
-
+ bookingID=0;
   paymentform!: FormGroup;
   showConfirmation: boolean = false;
 
@@ -34,36 +34,44 @@ export class BookingdialogComponent {
 
   onConfirm(answer: boolean) {
     if (answer) {
-      this.payment();
+      // this.payment();
     }
     this.showConfirmation = false;
   }
 
+
   payment() {
-    const bookingAmount = this.data.name.bookingAmount; // Get booking amount from data
-    const amountInPaise = bookingAmount ; // Convert to paise
-  
-    this.paymentService.createOrder({ amount: amountInPaise }).subscribe((res: any) => {
-      if (res && res.id && res.amount && res.currency) {
-        this.initiateRazorpayPayment(res.id, amountInPaise, res.currency);
-      } else {
-        console.error('Invalid response from createOrder:', res);
-      }
-    }, (error) => {
-      console.error('Error creating order:', error);
-    });
+    // Check if necessary data exists
+    const bookingAmount = this.data?.name?.bookingAmount; // Get the booking amount from the data
+    console.log(bookingAmount);
+    const orderId = this.data?.name?.orderReferenceID;
+    
+    // Ensure data is available before proceeding
+    if (!bookingAmount || !orderId) {
+      alert('Required payment details are missing.');
+      return;
+    }
+    
+    // Initiating Razorpay Payment with dynamic booking amount
+    this.initiateRazorpayPayment(orderId, bookingAmount, 'INR');
   }
+  
   initiateRazorpayPayment(orderId: string, amount: number, currency: string) {
    
+  
+
+    console.log(amount)
+    // Razorpay payment options
     const RazorpayOptions = {
-      key: 'rzp_test_7xBELXxLBhucXw',
-      amount: amount,
+      key: 'rzp_live_Ar5CUQL7iuaNPb', // Use a dynamic value (avoid hardcoding) for production
+      amount: amount.toString(), // Razorpay expects amount in paise, so convert it to paise
       currency: currency,
       name: 'Evurbo',
       description: 'Wallet Payment',
       order_id: orderId,
-      handler: (response:any) => {
-        this.verifyPayment(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature);
+      handler: (response: any) => {
+        console.log(response)
+        this.verifyPayment(0, response.razorpay_order_id, response.razorpay_payment_id, response.razorpay_signature);
       },
       prefill: {
         name: 'Rajkiran',
@@ -74,19 +82,29 @@ export class BookingdialogComponent {
         color: '#F37254'
       }
     };
-
+    
     const rzp1 = new Razorpay(RazorpayOptions);
+    
+    // Open the Razorpay modal for payment
     rzp1.open();
- 
- 
-  }
-  verifyPayment(orderId: string, paymentId: string, signature: string) {
-    this.paymentService.verifyPayment(orderId, paymentId, signature).subscribe((verificationResponse: any) => {
-      if (verificationResponse.success) {
-        alert('Payment Successful!');
-      } else {
-        alert('Payment Verification Failed!');
-      }
+    
+    // Handle any errors that may occur
+    rzp1.on('payment.failed', (response: any) => {
+      alert('Payment Failed: ' + response.error.description);
     });
   }
+  
+  
+  verifyPayment(bookingID: number, orderReferenceID: string, paymentID: string, signature: string) {
+  
+  
+    // Call the payment service to verify the payment
+    this.paymentService.verifyPayment(bookingID, orderReferenceID, paymentID, signature).subscribe((verificationResponse: any) => {
+      console.log(verificationResponse)
+    }, (error) => {
+      // Handle the error case
+      alert('Error during payment verification: ' + error.message);
+    });
+  }
+  
 }

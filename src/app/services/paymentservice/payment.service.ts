@@ -1,30 +1,28 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
   
-  private apiUrl = 'https://ccavenue-xw9x.onrender.com/api'; // Update with your backend API URL
+  apiurl = environment.BaseURL;
 
   constructor(private http: HttpClient) {}
 
-  // Create a new order
-  createOrder(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/payment/create-order`, data);
-  }
+
 
   // Verify payment
-  verifyPayment(orderId: string, paymentId: string, signature: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/verifyOrder`, {
-      order_id: orderId,
-      payment_id: paymentId
+  verifyPayment(bookingID:number,orderReferenceID: string, paymentID: string, signature: string): Observable<any> {
+    return this.http.post(`${this.apiurl}/Booking/updatebookingpaymentstatus`, {
+      bookingID:bookingID,
+      orderReferenceID: orderReferenceID,
+      paymentID: paymentID,
+      signature:signature
     }, {
-      headers: {
-        'x-razorpay-signature': signature
-      }
+     
     });
   }
 }
