@@ -3,7 +3,7 @@
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
       <mat-card>
    
-     <div>
+     <div >
         <h2 class="mat-h2" style="text-align: start;">Choose Evurbo for seamless electric bike rentals </h2>
       </div>
         <div class="book-form-container">
@@ -211,6 +211,9 @@
   <mat-datepicker #pickerEnd></mat-datepicker>
   <mat-error *ngIf="userForm.get('endDate')?.hasError('required')">
     End Date is required
+  </mat-error>
+  <mat-error *ngIf="userForm.hasError('startDateAfterEndDate')">
+    Start Date must be before End Date
   </mat-error>
 </mat-form-field>
 <!-- End Time -->

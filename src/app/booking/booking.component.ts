@@ -23,6 +23,7 @@ import { BookingserviceService } from '../services/bookingservice.service';
 import { BookingdialogComponent } from '../bookingdialog/bookingdialog.component';
 
 import { CustomDateAdapter } from '../custom-date-adapter'; // Import your custom adapter
+import { startDateBeforeEndDateValidator } from '../startDateValidator';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -146,7 +147,7 @@ export class BookingComponent {
     // startTime: ['', Validators.required],
 
 
-    endDate:['',[ Validators.required, this.timeValidator]],
+    endDate:['',[ Validators.required, this.timeValidator, startDateBeforeEndDateValidator() ]],
     "bookingStatus": 0,
     // endTime: ['', Validators.required],
     bookingAmount:'',
@@ -380,42 +381,59 @@ this.minEndDate = this.calculateTomorrowDate();
     this.userForm.controls['bookingNo']?.setValue(randomBookingNo);
   }
 
-
   onSubmit() {
     this.showError = true;
-    this.userForm.markAllAsTouched();  
+    this.userForm.markAllAsTouched(); // Mark all fields as touched to show validation errors
+  
+    // Check if the form is valid and startDate is not greater than endDate
+    const startDate = new Date(this.userForm.get('startDate')?.value);
+    const endDate = new Date(this.userForm.get('endDate')?.value);
+  
+    // Custom validation: if startDate is greater than endDate
+    if (startDate > endDate) {
+      // Optionally, set a custom error on the form
+      this.userForm.get('endDate')?.setErrors({ startDateAfterEndDate: true });
+   
+      console.log('Start Date cannot be greater than End Date');
+      return; // Exit the method, preventing the API call
+    }
+  
+    // Check if the form is valid
     if (this.userForm.valid) {
       const selectedHub: number = Number(this.userForm.get('hub')?.value);
-
-      // You can also do this for other fields if needed
       const selectedGender: number = Number(this.userForm.get('gender')?.value);
       const selectedModel: number = Number(this.userForm.get('model')?.value);
-      const selectedbookingAmmount: number = Number(this.userForm.get('bookingAmount')?.value);
+      const selectedBookingAmount: number = Number(this.userForm.get('bookingAmount')?.value);
+  
       const data = {
         ...this.userForm.value,
         hub: selectedHub,
         gender: selectedGender,
         model: selectedModel,
-        bookingAmount:selectedbookingAmmount
+        bookingAmount: selectedBookingAmount
       };
-    
-      console.log(data)
-      this.bookingservice.saveBooking(data).subscribe((res:any)=>{
+  
+      console.log('Form Data:', data);
+  
+      // Call the API
+      this.bookingservice.saveBooking(data).subscribe((res: any) => {
         console.log(res);
-        this.bookingData=res.data
+        this.bookingData = res.data;
         this.snackBar.open(JSON.stringify(res.message));
-    this.dialog.open(BookingdialogComponent, {
-          data: {name:this.bookingData},
-          width:'500px',
-          height:'300px',
-          panelClass:'dialog'
+  
+        this.dialog.open(BookingdialogComponent, {
+          data: { name: this.bookingData },
+          width: '500px',
+          height: '300px',
+          panelClass: 'dialog'
         });
-
-      })
+      });
     } else {
-      console.log('Form Invalid');
+      console.log('Form is invalid. Errors:', this.userForm.errors);
+      // Optionally, you can show an error to the user here if needed
     }
   }
+  
   opendiaalog(){
     this.dialog.open(BookingdialogComponent, {
       data: {name:this.bookingData},

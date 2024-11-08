@@ -8,6 +8,7 @@
     justify-content: space-between;
     overflow: auto; /* Enable scrolling if content exceeds container */
     max-width: 100%; /* Prevents overflow of the container */
+    padding: 2%;
 }
 
 .card-1 {
@@ -87,9 +88,14 @@ button {
 
 
 mat-card{
-  padding: 2%;
+  padding: 3%;
+
+}
+.flex-container{
+    padding-left: 2%;
 }
 
-
-
+.container{
+    padding: 0.8%;
+}
 
