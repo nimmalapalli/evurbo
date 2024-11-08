@@ -59,7 +59,7 @@ export class BookingdialogComponent {
   initiateRazorpayPayment(orderId: string, amount: number, currency: string) {
    
   
-
+    const bookingNo = this.data?.name?.bookingNo;
     console.log(amount)
     // Razorpay payment options
     const RazorpayOptions = {
@@ -71,7 +71,7 @@ export class BookingdialogComponent {
       order_id: orderId,
       handler: (response: any) => {
         console.log(response)
-        this.verifyPayment(0, response.razorpay_order_id, response.razorpay_payment_id, response.razorpay_signature);
+        this.verifyPayment(bookingNo, response.razorpay_order_id, response.razorpay_payment_id, response.razorpay_signature);
       },
       prefill: {
         name: 'Rajkiran',
