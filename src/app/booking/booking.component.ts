@@ -91,7 +91,7 @@ MatDialogModule,
     ],
 
   templateUrl: './booking.component.html',
-  styleUrl: './booking.component.scss'
+  styleUrl: './booking.component.css'
 })
 export class BookingComponent {
   today: Date = new Date();
