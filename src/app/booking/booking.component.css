@@ -98,18 +98,3 @@ mat-card{
 .container{
     padding: 0.8%;
 }
-::ng-deep .custom-dialog-panel {
-    background-color: transparent !important;
-    box-shadow: none !important;
-  }
-  
-  ::ng-deep .mat-dialog-container {
-    background-color: transparent !important;
-  }
-  
-  ::ng-deep .custom-dialog-backdrop {
-    background-color: transparent !important;
-  }
-  ::ng-deep .mat-dialog-container, .mat-dialog-content {
-    background-color: transparent !important;
-  }
