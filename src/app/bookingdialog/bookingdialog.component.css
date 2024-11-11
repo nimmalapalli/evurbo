@@ -1,4 +1,4 @@
-.heading{
+/* .heading{
   color: rgb(80, 80, 182);
   font-size: 24px;
   font-weight: 300;
@@ -9,4 +9,111 @@
 p{
    font-size: 18px;
    font-weight: 300;
+} */
+::ng-deep .mat-dialog-container {
+  --background: transparent !important; 
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 20px !important;
 }
+
+/* Dialog Title Styling */
+.dialog-title {
+
+  font-size: 24px;
+  font-weight: bold;
+  color: #0d47a1;
+  margin-bottom: 16px;
+}
+
+/* Dialog Content Styling */
+.dialog-content {
+  display: flex;
+  justify-content: center;
+}
+
+/* Ticket Wrapper Styling */
+.ticket-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+/* Ticket Container Styling */
+.ticket-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #0d47a1;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+}
+
+.ticket-container:hover {
+  transform: translateY(-10px);
+}
+
+/* Adding a Curved Side Design */
+.ticket-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -40px;
+  width: 80px;
+  background-color: #1565c0;
+  border-radius: 50%;
+}
+
+/* Dashed Line to Mimic a Perforation Effect */
+.ticket-container::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  height: 70%;
+  border-right: 2px dashed white;
+}
+
+/* Header Section Styling */
+.header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+/* Details Section Styling */
+.details {
+  font-size: 16px;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+/* Barcode Section Styling */
+.barcode {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.barcode button {
+  width: 100px;
+}
+
+.barcode img {
+  width: 100%;
+  max-width: 200px;
+  margin: 10px auto;
+  display: block;
+}
+
+

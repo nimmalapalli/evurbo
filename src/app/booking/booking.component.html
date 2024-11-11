@@ -66,7 +66,7 @@
               <input 
                 matInput 
                 formControlName="licenseNo"  
-                oninput="this.value = this.value.replace(/[^a-zA-Z0-9-]/g, '').slice(0, 16)" 
+                oninput="this.value = this.value.replace(/[^A-Z0-9-]/g, '').slice(0, 16)" 
               >
               <mat-error *ngIf="userForm.get('licenseNo')?.hasError('required')">
                 License Number is required

@@ -17,11 +17,10 @@
       <img src="https://evurbo.energy/wp-content/uploads/2024/04/cropped-Logo-01.png" alt="evurbo logo" width="60px" height="60px" >
       <span class="example-spacer"></span>
       <div class="theme-toggle-container">
-        <button  mat-stroked-button style="border-radius: 100%; width: 34px; height: 60px;"  (click)="toggleTheme()" matRipple   mat-raised-button
-        matTooltip="{{ toggleControl.value ? 'Switch to Light Mode' : 'Switch to Dark Mode' }}"
-        aria-label="light and dark mode">
-          <mat-icon>{{ toggleControl.value ? 'wb_sunny' : 'nights_stay' }}</mat-icon>
-        </button>
+    
+          <mat-icon mat-stroked-button  (click)="toggleTheme()" matRipple   mat-raised-button
+          matTooltip="{{ toggleControl.value ? 'Switch to Light Mode' : 'Switch to Dark Mode' }}">{{ toggleControl.value ? 'wb_sunny' : 'nights_stay' }}</mat-icon>
+    
       </div>
     </mat-toolbar>
 

@@ -24,6 +24,7 @@ import { BookingdialogComponent } from '../bookingdialog/bookingdialog.component
 
 import { CustomDateAdapter } from '../custom-date-adapter'; // Import your custom adapter
 import { startDateBeforeEndDateValidator } from '../startDateValidator';
+import { PaymentsuccessdialogComponent } from '../paymentsuccessdialog/paymentsuccessdialog.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -90,7 +91,7 @@ MatDialogModule,
     ],
 
   templateUrl: './booking.component.html',
-  styleUrl: './booking.component.css'
+  styleUrl: './booking.component.scss'
 })
 export class BookingComponent {
   today: Date = new Date();
@@ -121,14 +122,14 @@ export class BookingComponent {
   constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog) {
     this.getgenderdeatails();
     this.generateTimeSlots();
-  
+
 
     this.modelForm=this.fb.group({
       category:'MODEL'
     })
  this.gethubdeatails();
  this.getmodeldeatails();
- 
+
  this.userForm = this.fb.group({
   "bookingID": 0,
   bookingNo: [''],
@@ -343,7 +344,7 @@ this.minEndDate = this.calculateTomorrowDate();
     return [hours, minutes];
   }
   ngOnInit() {
- 
+
 
   }
 
@@ -394,7 +395,7 @@ this.minEndDate = this.calculateTomorrowDate();
       // Optionally, set a custom error on the form
       this.userForm.get('endDate')?.setErrors({ startDateAfterEndDate: true });
    
-      console.log('Start Date cannot be greater than End Date');
+      alert('Start Date cannot be greater than End Date');
       return; // Exit the method, preventing the API call
     }
   
@@ -423,10 +424,12 @@ this.minEndDate = this.calculateTomorrowDate();
   
         this.dialog.open(BookingdialogComponent, {
           data: { name: this.bookingData },
-          width: '500px',
-          height: '300px',
-          panelClass: 'dialog'
+          width:'520px',
+          height:'380px',
+          panelClass: 'custom-dialog-panel',
+          backdropClass: 'custom-dialog-backdrop',
         });
+        this.userForm.reset()
       });
     } else {
       console.log('Form is invalid. Errors:', this.userForm.errors);
@@ -437,9 +440,9 @@ this.minEndDate = this.calculateTomorrowDate();
   opendiaalog(){
     this.dialog.open(BookingdialogComponent, {
       data: {name:this.bookingData},
-      width:'500px',
-      height:'300px',
-      panelClass:'dialog'
+      width:'520px',
+      height:'380px',
+      panelClass: 'custom-dialog-container',
     });
 
  
@@ -455,7 +458,12 @@ this.minEndDate = this.calculateTomorrowDate();
     })
   }
 
-
+  onPaymentSuccess(): void {
+    this.dialog.open(PaymentsuccessdialogComponent, {
+      width: '400px',
+      data: { message: 'Payment Successful!' },
+    });
+  }
   getmodeldeatails(){
     const data ={ Category:'MODEL'
     }

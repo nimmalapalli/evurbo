@@ -1,4 +1,4 @@
-<div class="mat-dialog-container">
+<!-- <div class="mat-dialog-container">
 <div class="dialog-container">
 
   <h3 class="heading">Booking Details</h3>
@@ -13,6 +13,34 @@
   </div>
 
 
-  </div>
+  </div> -->
 
- 
+  <mat-dialog-content >
+    <h2 mat-dialog-title>Booking Details</h2>
+    <div class="ticket-wrapper">
+      <div class="ticket-container">
+        <div class="header">
+          <span>{{ data.name.bookingNo }}</span>
+        </div>
+  
+        <div class="details">
+          <p>Booking Start Date: {{ data.name.startDate | date: 'dd/MM/yyyy' }}</p>
+          <p>Booking End Date: {{ data.name.endDate | date: 'dd/MM/yyyy' }}</p>
+          <p>Booking Amount: ₹{{ data.name.bookingAmount }}</p>
+        </div>
+  
+        <div class="barcode" *ngIf="!paymentID">
+          <button color="primary" mat-raised-button (click)="payment()">Pay Now</button>
+          &nbsp;&nbsp;
+          <button mat-raised-button mat-dialog-close color="warn">No</button>
+        </div>
+        <div class="barcode" *ngIf="paymentID">
+          <p>PaymentID: {{ paymentID }}</p>
+          </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  
+
+  
+  

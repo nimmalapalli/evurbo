@@ -29,10 +29,16 @@
 
 }
 mat-icon{
+  width: 40px;
+  height: 40px;
+  margin: 10%;
+  padding: 2%;
   font-weight: bolder;
-font-size: large;
+font-size:xx-large;
 
-  padding: 10px;
+
+
+
 }
 
 

@@ -1,29 +1,32 @@
 import { CommonModule } from '@angular/common';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, ViewEncapsulation } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { PaymentgatewayComponent } from '../paymentgateway/paymentgateway.component';
 import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PaymentService } from '../services/paymentservice/payment.service';
+import { PaymentsuccessdialogComponent } from '../paymentsuccessdialog/paymentsuccessdialog.component';
 
 declare var Razorpay: any;
 @Component({
   selector: 'app-bookingdialog',
   standalone: true,
-  imports: [MatDialogModule,CommonModule,PaymentgatewayComponent,MatButtonModule,ReactiveFormsModule],
+  imports: [MatDialogModule,CommonModule,PaymentgatewayComponent,MatButtonModule,ReactiveFormsModule,PaymentsuccessdialogComponent],
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
+  encapsulation: ViewEncapsulation.None, // Disable view encapsulation
   templateUrl: './bookingdialog.component.html',
   styleUrl: './bookingdialog.component.css'
 })
 export class BookingdialogComponent {
   readonly dialogRef = inject(MatDialogRef<BookingdialogComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
-  paymentid:any;
+
+  paymentID:any;
  bookingID=0;
   paymentform!: FormGroup;
   showConfirmation: boolean = false;
 
-  constructor(private _pf: FormBuilder, private paymentService: PaymentService) {
+  constructor(private _pf: FormBuilder, private paymentService: PaymentService,private dialog: MatDialog) {
  
     console.log(this.data)
   }
@@ -70,14 +73,12 @@ export class BookingdialogComponent {
       description: 'Wallet Payment',
       order_id: orderId,
       handler: (response: any) => {
+        debugger
         console.log(response)
+     
         this.verifyPayment(bookingNo, response.razorpay_order_id, response.razorpay_payment_id, response.razorpay_signature);
       },
-      prefill: {
-        name: 'Rajkiran',
-        email: 'Connect@evurbo.com',
-        contact: '8179567666'
-      },
+     
       theme: {
         color: '#F37254'
       }
@@ -101,11 +102,20 @@ export class BookingdialogComponent {
     // Call the payment service to verify the payment
     this.paymentService.verifyPayment(bookingID, orderReferenceID, paymentID, signature).subscribe((verificationResponse: any) => {
       console.log(verificationResponse)
-      alert(verificationResponse.name)
+      this.paymentID=verificationResponse.data
+    this.onPaymentSuccess()
     }, (error) => {
       // Handle the error case
       alert('Error during payment verification: ' + error.message);
     });
   }
-  
+  onPaymentSuccess(): void {
+    const dialogRef =  this.dialog.open(PaymentsuccessdialogComponent, {
+      width: '400px',
+      data: { message: 'Payment Successful!' },
+    });
+    setTimeout(() => {
+      dialogRef.close();
+    }, 10000);
+  }
 }
