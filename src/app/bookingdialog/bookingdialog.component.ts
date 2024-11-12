@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { PaymentgatewayComponent } from '../paymentgateway/paymentgateway.component';
@@ -11,7 +11,7 @@ declare var Razorpay: any;
 @Component({
   selector: 'app-bookingdialog',
   standalone: true,
-  imports: [MatDialogModule,CommonModule,PaymentgatewayComponent,MatButtonModule,ReactiveFormsModule,PaymentsuccessdialogComponent],
+  imports: [MatDialogModule,CommonModule,PaymentgatewayComponent,MatButtonModule,ReactiveFormsModule,PaymentsuccessdialogComponent,NgIf],
   schemas:[CUSTOM_ELEMENTS_SCHEMA],
   encapsulation: ViewEncapsulation.None, // Disable view encapsulation
   templateUrl: './bookingdialog.component.html',
