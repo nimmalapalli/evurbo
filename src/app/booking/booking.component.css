@@ -6,8 +6,8 @@
     flex-wrap: wrap;
     gap: 20px;
     justify-content: space-between;
-    overflow: auto; /* Enable scrolling if content exceeds container */
-    max-width: 100%; /* Prevents overflow of the container */
+    overflow: auto; 
+    max-width: 100%; 
     padding: 2%;
 }
 
@@ -27,7 +27,7 @@ button {
     height: 40px;
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
     .card-1 {
         flex: 1 1 100%;
@@ -97,4 +97,36 @@ mat-card{
 
 .container{
     padding: 0.8%;
-}
+} 
+
+
+.example-card {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .card-text {
+    flex: 1;
+    padding-right: 16px; 
+  }
+  
+  .card-image {
+    width: 40%;
+  }
+  
+  .card-image img {
+    width: 100%;
+    height: auto;
+  }
+  /* Mobile view: hide the image */
+@media screen and (max-width: 600px) {
+    .card-image {
+      display: none;
+    }
+  }

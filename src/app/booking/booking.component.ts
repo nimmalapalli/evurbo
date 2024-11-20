@@ -429,7 +429,10 @@ this.minEndDate = this.calculateTomorrowDate();
           panelClass: 'custom-dialog-panel',
           backdropClass: 'custom-dialog-backdrop',
         });
-        this.userForm.reset()
+        this.userForm.reset();
+
+        this.userForm.markAsUntouched();
+        
       });
     } else {
       console.log('Form is invalid. Errors:', this.userForm.errors);

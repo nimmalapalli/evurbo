@@ -102,6 +102,7 @@ export class BookingdialogComponent {
     // Call the payment service to verify the payment
     this.paymentService.verifyPayment(bookingID, orderReferenceID, paymentID, signature).subscribe((verificationResponse: any) => {
       console.log(verificationResponse)
+      console.log(verificationResponse.data)
       this.paymentID=verificationResponse.data
     this.onPaymentSuccess()
     }, (error) => {
