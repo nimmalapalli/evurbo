@@ -17,7 +17,11 @@
                 <div class="card-1">
                   <mat-form-field appearance="outline">
                     <mat-label>Mobile Number</mat-label>
-                    <input matInput formControlName="mobileNo" (keyup)="getuserdeatails($event)"  required oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
+                    <input matInput formControlName="mobileNo" (keyup)="getuserdeatails($event)" 
+                           required 
+                           oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)" 
+                           autocomplete="new-password" 
+                           id="mobileNoInput">
                     <mat-error *ngIf="userForm.get('mobileNo')?.hasError('required')">
                       Mobile Number is required
                     </mat-error>
@@ -72,7 +76,8 @@
                     <input 
                       matInput 
                       formControlName="licenseNo"  
-                      oninput="this.value = this.value.replace(/[^A-Z0-9-]/g, '').slice(0, 16)" 
+                      oninput="this.value = this.value.replace(/[^A-Z0-9-]/g, '').slice(0, 16)"   autocomplete="new-license" 
+                      id="licenseInput"
                     >
                     <mat-error *ngIf="userForm.get('licenseNo')?.hasError('required')">
                       License Number is required
@@ -95,7 +100,7 @@
                   <mat-form-field appearance="outline">
                     <mat-label>Gender</mat-label>
                     <mat-select  formControlName="gender" required>
-                      <mat-option value="{{userDetails?.gender}}" *ngFor="let option of genderDetails" [value]="option.lookupID">{{option.lookupDescription}}</mat-option>
+                      <mat-option value="{{userDetails?.gender}}" *ngFor="let option of genderDetails" [value]="option.lookupID" autocomplete="off">{{option.lookupDescription}}</mat-option>
                   
                     </mat-select>
                     <mat-error *ngIf="userForm.get('gender')?.hasError('required')">

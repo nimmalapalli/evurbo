@@ -116,7 +116,8 @@ export class BookingComponent {
   startTime!: string;
   endTime!: string;
   minEndDate: Date;
-
+  mobileNo!:Number;
+  activeBookingDetails: any = {};
   // Assuming daily rate is constant
   dailyRate = 299;
   constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog) {
@@ -158,6 +159,7 @@ export class BookingComponent {
 
 
 });
+
 this.userForm.get('startTime')?.valueChanges.subscribe(() => {
   this.isStarttimeSelected = true;
   this.filterEndTimes();
@@ -483,15 +485,58 @@ this.minEndDate = this.calculateTomorrowDate();
       this.genderDetails=res.data;
     })
   }
-  getuserdeatails(event:any){
-    let data ={ mobileNo:event.target.value
-    }
- 
-    this.bookingservice.getuserDetails(data).subscribe((res:any)=>{
-       console.log(res.data)
-      this.userDetails=res.data;
-    })
+  getuserdeatails(event: any) {
+    let data = { mobileNo: event.target.value };
+
+    this.bookingservice.getuserDetails(data).subscribe((res: any) => {
+        console.log(res.data);
+        this.userDetails = res.data; // Store user details separately
+        
+        // Store the mobile number from the response or input
+        this.mobileNo = res.data.mobileNo; // Assuming the mobile number is available here
+
+        // After fetching user details, call getActiveuserBooking
+        this.getActiveuserBooking();
+    });
   }
+
+  getActiveuserBooking() {
+    // Use the stored mobile number from getuserdeatails
+    let data = { mobileNo: this.mobileNo };
+
+    this.bookingservice.getActiveUser(data).subscribe(
+      (res: any) => {
+        console.log(res.data);
+
+        // If res.data is null, show the no data message
+        if (res.data == null) {
+          this.snackBar.open('No active booking found for this user.', 'Close', {
+            duration: 3000,
+            panelClass: ['error-snackbar']
+          });
+        } else {
+          this.activeBookingDetails = res.data; // Store active booking details separately
+          
+          // Show success message with active booking details
+          this.snackBar.open('Active booking fetched successfully: ' + JSON.stringify(this.activeBookingDetails), 'Close', {
+            duration: 3000,
+            panelClass: ['success-snackbar']
+          });
+        }
+      },
+      (error: any) => {
+        console.error(error);
+
+        // Show error message using MatSnackBar in case of failure
+        this.snackBar.open('Failed to fetch active booking. Please try again.', 'Close', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    );
+  }
+  
+
   restrictInput(event: any, pattern: RegExp): void {
     const regex = new RegExp(pattern, 'g');
     const input = event.target.value.replace(regex, '');

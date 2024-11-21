@@ -28,4 +28,8 @@ export class BookingserviceService {
     return this.http.post(this.apiurl+'/Booking/getmemberdetails',data);
   }
 
+  getActiveUser(data:any){
+    return this.http.post(this.apiurl+'/Booking/getuseractivebookings',data);
+  }
+
 }
