@@ -422,7 +422,7 @@ this.minEndDate = this.calculateTomorrowDate();
       this.bookingservice.saveBooking(data).subscribe((res: any) => {
         console.log(res);
         this.bookingData = res.data;
-        this.snackBar.open(JSON.stringify(res.message));
+     
   
         this.dialog.open(BookingdialogComponent, {
           data: { name: this.bookingData },
@@ -487,18 +487,19 @@ this.minEndDate = this.calculateTomorrowDate();
   }
   getuserdeatails(event: any) {
     let data = { mobileNo: event.target.value };
-
+  
     this.bookingservice.getuserDetails(data).subscribe((res: any) => {
+      // Check if the user data is available in the response
+      if (res && res.data && res.data.mobileNo) {
         console.log(res.data);
         this.userDetails = res.data; // Store user details separately
-        
-        // Store the mobile number from the response or input
         this.mobileNo = res.data.mobileNo; // Assuming the mobile number is available here
-
+  
         // After fetching user details, call getActiveuserBooking
         this.getActiveuserBooking();
-    });
+      }})
   }
+  
 
   getActiveuserBooking() {
     // Use the stored mobile number from getuserdeatails
