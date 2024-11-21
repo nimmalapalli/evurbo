@@ -509,7 +509,7 @@ this.minEndDate = this.calculateTomorrowDate();
         console.log(res.data);
 
         // If res.data is null, show the no data message
-        if (res.data == null) {
+        if (res.data == "") {
           this.snackBar.open('No active booking found for this user.', 'Close', {
             duration: 3000,
             panelClass: ['error-snackbar']
