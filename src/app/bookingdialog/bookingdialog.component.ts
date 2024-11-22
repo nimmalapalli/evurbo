@@ -78,7 +78,7 @@ export class BookingdialogComponent {
      
         this.verifyPayment(bookingNo, response.razorpay_order_id, response.razorpay_payment_id, response.razorpay_signature);
       },
-     
+      prefill: {},
       theme: {
         color: '#F37254'
       }
