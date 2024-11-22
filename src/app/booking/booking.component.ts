@@ -134,11 +134,11 @@ export class BookingComponent {
  this.userForm = this.fb.group({
   "bookingID": 0,
   bookingNo: [''],
-  firstName: ['', Validators.required],
-  lastName: ['', Validators.required],
+  firstName: [this.userDetails?.firstName , Validators.required],
+  lastName: [this.userDetails?.lastName, Validators.required],
   mobileNo: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-  dob: ['', [Validators.required,ageValidator(18)]],
-  email: ['', [Validators.required, Validators.email]],
+  dob: [this.userDetails?.dateofBirth, [Validators.required,ageValidator(18)]],
+  email: [this.userDetails?.emailID, [Validators.required, Validators.email]],
  // Checkbox, starts unchecked
   licenseNo: ['',[Validators.required, Validators.pattern('^[A-Z0-9-]{5,16}$'), Validators.maxLength(16),Validators.minLength(15)]] ,
   gender: [null, Validators.required],
@@ -386,7 +386,7 @@ this.minEndDate = this.calculateTomorrowDate();
 
   onSubmit() {
     this.showError = true;
-    this.userForm.markAllAsTouched(); // Mark all fields as touched to show validation errors
+ 
   
     // Check if the form is valid and startDate is not greater than endDate
     const startDate = new Date(this.userForm.get('startDate')?.value);
@@ -423,7 +423,9 @@ this.minEndDate = this.calculateTomorrowDate();
         console.log(res);
         this.bookingData = res.data;
      
-  
+  if(res.statusCode=400){
+    this.snackBar.open(JSON.stringify(res.message))
+  }
         this.dialog.open(BookingdialogComponent, {
           data: { name: this.bookingData },
           width:'520px',
@@ -494,7 +496,12 @@ this.minEndDate = this.calculateTomorrowDate();
         console.log(res.data);
         this.userDetails = res.data; // Store user details separately
         this.mobileNo = res.data.mobileNo; // Assuming the mobile number is available here
-  
+        this.userForm.patchValue({
+          firstName: this.userDetails.firstName, // Assuming the API returns `name`
+          email: this.userDetails.emailID,
+          lastName: this.userDetails.lastName,
+          dob:this.userDetails.dateofBirth
+        });
         // After fetching user details, call getActiveuserBooking
         this.getActiveuserBooking();
       }})

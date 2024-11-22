@@ -31,7 +31,7 @@
                   </mat-form-field>
                   <mat-form-field appearance="outline">
                     <mat-label>First Name</mat-label>
-                    <input matInput value="{{userDetails?.firstName}}" formControlName="firstName"   oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" >
+                    <input matInput  formControlName="firstName"   oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" >
                     <mat-error *ngIf="userForm.get('firstName')?.hasError('required')">
                       First Name is required
                     </mat-error>
@@ -39,7 +39,7 @@
           
                   <mat-form-field appearance="outline">
                     <mat-label>Last Name</mat-label>
-                    <input matInput value="{{userDetails?.lastName}}" formControlName="lastName"  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" >
+                    <input matInput formControlName="lastName"  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" >
                     <mat-error *ngIf="userForm.get('lastName')?.hasError('required')">
                       Last Name is required
                     </mat-error>
@@ -49,7 +49,7 @@
           
                   <mat-form-field appearance="outline">
                     <mat-label>Date of Birth</mat-label>
-                    <input matInput value="{{userDetails?.dateofBirth}}" [matDatepicker]="picker" formControlName="dob" required readonly> 
+                    <input matInput  [matDatepicker]="picker" formControlName="dob" required readonly> 
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                     <mat-error *ngIf="userForm.get('dob')?.hasError('required')">
@@ -62,7 +62,7 @@
           
                   <mat-form-field appearance="outline">
                     <mat-label>Email</mat-label>
-                    <input matInput formControlName="email" value="{{userDetails?.emailID}}"   oninput="this.value = this.value.replace(/[^a-zA-Z0-9._%+-@]/g, '').slice(0, 50)"  required>
+                    <input matInput formControlName="email"  oninput="this.value = this.value.replace(/[^a-zA-Z0-9._%+-@]/g, '').slice(0, 50)"  required>
                     <mat-error *ngIf="userForm.get('email')?.hasError('required')">
                       Email is required
                     </mat-error>
