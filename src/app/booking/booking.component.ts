@@ -606,10 +606,6 @@ this.minEndDate = this.calculateTomorrowDate();
 
  
   }
-   // Optionally, clear localStorage after retrieving the data
-   ngOnDestroy(): void {
-    localStorage.removeItem('bookingData'); // Clear the stored data after use
-  }
 
 
   gethubdeatails(){
