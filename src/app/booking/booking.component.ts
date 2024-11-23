@@ -211,6 +211,8 @@ this.minEndDate = this.calculateTomorrowDate();
           <p><strong>Booking Start Date:</strong> ${new Date(bookingData.startDate).toLocaleDateString()}</p>
           <p><strong>Booking End Date:</strong> ${new Date(bookingData.endDate).toLocaleDateString()}</p>
           <p><strong>Booking Amount:</strong> ₹${bookingData.bookingAmount}</p>
+            <p><strong>OrderId:</strong> ₹${bookingData.OrderReferenceID}</p>
+             <p><strong>PaymentId:</strong> ₹${this.paymentID}</p>
         </div>
       `,
       icon: 'info',
@@ -604,7 +606,10 @@ this.minEndDate = this.calculateTomorrowDate();
 
  
   }
- 
+   // Optionally, clear localStorage after retrieving the data
+   ngOnDestroy(): void {
+    localStorage.removeItem('bookingData'); // Clear the stored data after use
+  }
 
 
   gethubdeatails(){
