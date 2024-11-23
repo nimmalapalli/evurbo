@@ -128,6 +128,7 @@ export class BookingComponent {
   constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog,private paymentService: PaymentService) {
     this.getgenderdeatails();
     this.generateTimeSlots();
+ 
 
 
     this.modelForm=this.fb.group({
@@ -207,12 +208,12 @@ this.minEndDate = this.calculateTomorrowDate();
       title: 'Booking Information',
       html: `
         <div class="details">
-          <p><strong>Booking Number:</strong> ${bookingData.bookingNo}</p>
-          <p><strong>Booking Start Date:</strong> ${new Date(bookingData.startDate).toLocaleDateString()}</p>
-          <p><strong>Booking End Date:</strong> ${new Date(bookingData.endDate).toLocaleDateString()}</p>
-          <p><strong>Booking Amount:</strong> ₹${bookingData.bookingAmount}</p>
-            <p><strong>OrderId:</strong> ₹${bookingData.OrderReferenceID}</p>
-             <p><strong>PaymentId:</strong> ₹${this.paymentID}</p>
+          <p><strong>Booking Number:</strong> ${bookingData?.bookingNo}</p>
+          <p><strong>Booking Start Date:</strong> ${new Date(bookingData?.startDate).toLocaleDateString()}</p>
+          <p><strong>Booking End Date:</strong> ${new Date(bookingData?.endDate).toLocaleDateString()}</p>
+          <p><strong>Booking Amount:</strong> ₹${bookingData?.bookingAmount}</p>
+            <p><strong>OrderId:</strong> ${bookingData?.orderReferenceID}</p>
+             <p><strong>PaymentId:</strong> ${this.paymentID}</p>
         </div>
       `,
       icon: 'info',
@@ -569,15 +570,9 @@ this.minEndDate = this.calculateTomorrowDate();
   //   height:'380px',
 
   // });
-  const storage = localStorage.getItem('bookingData');
-  const bookingData = storage ? JSON.parse(storage) : null;
 
-  // If bookingData exists, open the dialog
-  if (bookingData) {
-    this.openDialog(bookingData); // Pass the data to openDialog
-  } else {
-    console.log('No booking data found in storage.');
-  }
+    this.openDialog(this.bookingData); // Pass the data to openDialog
+ 
 
      }, (error) => {
        // Handle the error case

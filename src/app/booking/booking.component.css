@@ -131,6 +131,64 @@ mat-card{
     }
   }
 
-  p-dialog {
-    --border: 2px solid black !important;
+  ::ng-deep .swal2-popup {
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #333;
+    width: 500px;
+    text-align: left;
   }
+  
+  ::ng-deep .swal2-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #4caf50;
+    text-align: center;
+  }
+  
+  ::ng-deep .swal2-html-container {
+    padding: 10px 0;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  ::ng-deep .details p {
+    margin: 10px 0;
+  }
+  
+  ::ng-deep .details p strong {
+    color: #333;
+  }
+  
+  ::ng-deep .swal2-confirm {
+    background-color: #4caf50;
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+  
+  ::ng-deep .swal2-confirm:hover {
+    background-color: #45a049;
+  }
+  
+  ::ng-deep .swal2-actions {
+    display: flex;
+    justify-content: center;
+  }
+  
+  ::ng-deep .swal2-cancel {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  
+  ::ng-deep .swal2-cancel:hover {
+    background-color: #e53935;
+  }
+  
