@@ -25,7 +25,8 @@ import { BookingdialogComponent } from '../bookingdialog/bookingdialog.component
 import { CustomDateAdapter } from '../custom-date-adapter'; // Import your custom adapter
 import { startDateBeforeEndDateValidator } from '../startDateValidator';
 import { PaymentsuccessdialogComponent } from '../paymentsuccessdialog/paymentsuccessdialog.component';
-
+import { PaymentService } from '../services/paymentservice/payment.service';
+declare var Razorpay: any;
 export const MY_DATE_FORMATS = {
   parse: {
     dateInput: 'DD/MM/YY', // Define the parsing format for input
@@ -120,7 +121,7 @@ export class BookingComponent {
   activeBookingDetails: any = {};
   // Assuming daily rate is constant
   dailyRate = 299;
-  constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog) {
+  constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog,private paymentService: PaymentService) {
     this.getgenderdeatails();
     this.generateTimeSlots();
 
@@ -422,28 +423,150 @@ this.minEndDate = this.calculateTomorrowDate();
       this.bookingservice.saveBooking(data).subscribe((res: any) => {
         console.log(res);
         this.bookingData = res.data;
-     
+        if(res.statusCode=200){
+              // Store bookingData in localStorage
+              localStorage.setItem('bookingData', JSON.stringify(this.bookingData));
+           
+              this.payment()
+        }  
   if(res.statusCode=400){
-    this.snackBar.open(JSON.stringify(res.message))
+    this.snackBar.open(JSON.stringify(res.message), 'Close', {
+      duration: 3000,
+      panelClass: ['success-snackbar']
+    })
   }
-        this.dialog.open(BookingdialogComponent, {
-          data: { name: this.bookingData },
-          width:'520px',
-          height:'380px',
-          panelClass: 'custom-dialog-panel',
-          backdropClass: 'custom-dialog-backdrop',
-        });
+
+       
         this.userForm.reset();
 
         this.userForm.markAsUntouched();
         
       });
-    } else {
-      console.log('Form is invalid. Errors:', this.userForm.errors);
-      // Optionally, you can show an error to the user here if needed
     }
   }
+  paymentID:any;
+  bookingID=0;
+   paymentform!: FormGroup;
+   showConfirmation: boolean = false;
+ 
+
+ 
+   confirmPayment() {
+     this.showConfirmation = true;
+   }
+ 
+   onConfirm(answer: boolean) {
+     if (answer) {
+       // this.payment();
+     }
+     this.showConfirmation = false;
+   }
+ 
+ 
+   payment() {
+     // Check if necessary data exists
+     const bookingAmount = this.bookingData?.bookingAmount; // Get the booking amount from the data
+     console.log(bookingAmount);
+     const orderId = this.bookingData?.orderReferenceID;
+     
+     // Ensure data is available before proceeding
+     if (!bookingAmount || !orderId) {
+       alert('Required payment details are missing.');
+       return;
+     }
+     
+     // Initiating Razorpay Payment with dynamic booking amount
+     this.initiateRazorpayPayment(orderId, bookingAmount, 'INR');
+    // const storage=JSON.parse(localStorage.getItem('bookingData') || '')
+    // this.dialog.open(BookingdialogComponent, {
+
+    //  data:storage,
+    //   width:'520px',
+    //   height:'380px',
   
+    // });
+   }
+   
+   initiateRazorpayPayment(orderId: string, amount: number, currency: string) {
+    
+   
+     const bookingNo = this.bookingData?.bookingNo;
+     console.log(amount)
+     // Razorpay payment options
+     const RazorpayOptions = {
+       key: 'rzp_live_Ar5CUQL7iuaNPb', // Use a dynamic value (avoid hardcoding) for production
+       amount: amount.toString(), // Razorpay expects amount in paise, so convert it to paise
+       currency: currency,
+       name: 'Evurbo',
+       description: 'Wallet Payment',
+       order_id: orderId,
+       handler: (response: any) => {
+         debugger
+         console.log(response)
+      
+         this.verifyPayment(bookingNo, response.razorpay_order_id, response.razorpay_payment_id, response.razorpay_signature);
+       },
+       prefill: {},
+       theme: {
+         color: '#F37254'
+       }
+     };
+     
+     const rzp1 = new Razorpay(RazorpayOptions);
+     
+     // Open the Razorpay modal for payment
+     rzp1.open();
+     
+     // Handle any errors that may occur
+     rzp1.on('payment.failed', (response: any) => {
+       alert('Payment Failed: ' + response.error.description);
+     });
+   }
+   
+   
+   verifyPayment(bookingID: number, orderReferenceID: string, paymentID: string, signature: string) {
+   
+   
+     // Call the payment service to verify the payment
+     this.paymentService.verifyPayment(bookingID, orderReferenceID, paymentID, signature).subscribe((verificationResponse: any) => {
+       console.log(verificationResponse)
+       console.log(verificationResponse.data)
+       this.paymentID=verificationResponse.data
+    //  this.onPaymentSuccess();
+  //  const storage=localStorage.getItem('bookingData')
+  //             this.dialog.open(BookingdialogComponent, {
+          
+  //              data:storage,
+  //               width:'520px',
+  //               height:'380px',
+            
+  //             });
+  const storage=JSON.parse(localStorage.getItem('bookingData') || '')
+  this.dialog.open(BookingdialogComponent, {
+
+   data:storage,
+    width:'520px',
+    height:'380px',
+
+  });
+ 
+     }, (error) => {
+       // Handle the error case
+       alert('Error during payment verification: ' + error.message);
+     });
+   }
+   onPaymentSuccess(): void {
+     const dialogRef =  this.dialog.open(PaymentsuccessdialogComponent, {
+       width: '400px',
+       data: { message: 'Payment Successful!',
+        
+        },
+
+     });
+     setTimeout(() => {
+       dialogRef.close();
+     }, 1000);
+   }
   opendiaalog(){
     this.dialog.open(BookingdialogComponent, {
       data: {name:this.bookingData},
@@ -465,12 +588,12 @@ this.minEndDate = this.calculateTomorrowDate();
     })
   }
 
-  onPaymentSuccess(): void {
-    this.dialog.open(PaymentsuccessdialogComponent, {
-      width: '400px',
-      data: { message: 'Payment Successful!' },
-    });
-  }
+  // onPaymentSuccess(): void {
+  //   this.dialog.open(PaymentsuccessdialogComponent, {
+  //     width: '400px',
+  //     data: { message: 'Payment Successful!' },
+  //   });
+  // }
   getmodeldeatails(){
     const data ={ Category:'MODEL'
     }

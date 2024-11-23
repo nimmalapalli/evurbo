@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { PaymentService } from '../services/paymentservice/payment.service';
 import { PaymentsuccessdialogComponent } from '../paymentsuccessdialog/paymentsuccessdialog.component';
-
+import { jsPDF } from 'jspdf';
 declare var Razorpay: any;
 @Component({
   selector: 'app-bookingdialog',
@@ -20,7 +20,7 @@ declare var Razorpay: any;
 export class BookingdialogComponent {
   readonly dialogRef = inject(MatDialogRef<BookingdialogComponent>);
   readonly data = inject<any>(MAT_DIALOG_DATA);
-
+  bookingData:any
   paymentID:any;
  bookingID=0;
   paymentform!: FormGroup;
@@ -28,7 +28,7 @@ export class BookingdialogComponent {
 
   constructor(private _pf: FormBuilder, private paymentService: PaymentService,private dialog: MatDialog) {
  
-    console.log(this.data)
+    console.log('BOOKINGdATA', this.data)
   }
 
   confirmPayment() {
@@ -118,5 +118,20 @@ export class BookingdialogComponent {
     setTimeout(() => {
       dialogRef.close();
     }, 10000);
+  }
+
+  ngOnInit(): void {
+    // Retrieve bookingData from localStorage
+    const storedData = localStorage.getItem('bookingData');
+    if (storedData) {
+      this.bookingData = JSON.parse(storedData);
+    } else {
+      console.error('Booking data not found in localStorage');
+    }
+  }
+
+  // Optionally, clear localStorage after retrieving the data
+  ngOnDestroy(): void {
+    localStorage.removeItem('bookingData'); // Clear the stored data after use
   }
 }

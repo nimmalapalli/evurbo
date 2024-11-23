@@ -1,15 +1,4 @@
-/* .heading{
-  color: rgb(80, 80, 182);
-  font-size: 24px;
-  font-weight: 300;
-}
-.dialog-container{
-  padding: 3%;
-}
-p{
-   font-size: 18px;
-   font-weight: 300;
-} */
+/* 
 ::ng-deep .mat-dialog-container {
   --background: transparent !important; 
   box-shadow: none !important;
@@ -17,7 +6,7 @@ p{
   border-radius: 20px !important;
 }
 
-/* Dialog Title Styling */
+
 .dialog-title {
 
   font-size: 24px;
@@ -26,13 +15,13 @@ p{
   margin-bottom: 16px;
 }
 
-/* Dialog Content Styling */
+
 .dialog-content {
   display: flex;
   justify-content: center;
 }
 
-/* Ticket Wrapper Styling */
+
 .ticket-wrapper {
   display: flex;
   justify-content: center;
@@ -40,7 +29,7 @@ p{
   width: 100%;
 }
 
-/* Ticket Container Styling */
+
 .ticket-container {
   width: 100%;
   max-width: 400px;
@@ -58,7 +47,7 @@ p{
   transform: translateY(-10px);
 }
 
-/* Adding a Curved Side Design */
+
 .ticket-container::before {
   content: '';
   position: absolute;
@@ -70,7 +59,7 @@ p{
   border-radius: 50%;
 }
 
-/* Dashed Line to Mimic a Perforation Effect */
+
 .ticket-container::after {
   content: '';
   position: absolute;
@@ -81,7 +70,7 @@ p{
   border-right: 2px dashed white;
 }
 
-/* Header Section Styling */
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -90,14 +79,13 @@ p{
   margin-bottom: 16px;
 }
 
-/* Details Section Styling */
 .details {
   font-size: 16px;
   margin-bottom: 20px;
   line-height: 1.6;
 }
 
-/* Barcode Section Styling */
+
 .barcode {
   display: flex;
   justify-content: space-around;
@@ -114,6 +102,6 @@ p{
   max-width: 200px;
   margin: 10px auto;
   display: block;
-}
+} */
 
 

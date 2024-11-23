@@ -1,46 +1,30 @@
-<!-- <div class="mat-dialog-container">
-<div class="dialog-container">
-
-  <h3 class="heading">Booking Details</h3>
-  <p>Booking Number:  <i>{{ data.name.bookingNo }}</i> </p>
-  <p>Booking Start Date: <i>{{ data.name.startDate  | date: 'dd/MM/yyyy' }}</i> </p>
-  <p>Booking End Date: <i>{{ data.name.endDate  | date: 'dd/MM/yyyy' }}</i> </p>
-  <p>Booking Ammount: <i>{{ data.name.bookingAmount}}</i> </p><br>
- <button  color="primary" mat-raised-button (click)="payment()" >Pay Now</button>&nbsp;&nbsp;
-    <button mat-raised-button color="warn"  routerLink="https://evurbo.energy/">No</button>
 
 
-  </div>
-
-
-  </div> -->
-
-  <mat-dialog-content >
+  <mat-dialog-content>
     <h2 mat-dialog-title>Booking Details</h2>
-    <div class="ticket-wrapper">
+    <div class="ticket-wrapper"  >
       <div class="ticket-container">
+
         <div class="header">
-          <span>{{ data.name.bookingNo }}</span>
+          <span><strong>Booking Number:</strong> {{ data.bookingNo }}</span>
         </div>
   
         <div class="details">
-          <p>Booking Start Date: {{ data.name.startDate | date: 'dd/MM/yyyy' }}</p>
-          <p>Booking End Date: {{ data.name.endDate | date: 'dd/MM/yyyy' }}</p>
-          <p>Booking Amount: ₹{{ data.name.bookingAmount }}</p>
+          <p><strong>Booking Start Date:</strong> {{ data.startDate | date }}</p>
+          <p> <strong> Booking End Date:</strong> {{ data.endDate | date }}</p>
+          <p><strong>Booking Amount:</strong> ₹{{ data.bookingAmount }}</p>
+         
         </div>
   
-        <div class="barcode" *ngIf="!paymentID">
-          <button color="primary" mat-raised-button (click)="payment()">Pay Now</button>
-          &nbsp;&nbsp;
-          <button mat-raised-button mat-dialog-close color="warn">No</button>
+        <div class="barcode">
+          <button mat-raised-button >Download</button>
+          <button mat-raised-button mat-dialog-close color="warn">Close</button>
         </div>
-        <div class="barcode" *ngIf="paymentID">
-          <p>PaymentID: {{ paymentID }}</p>
-          </div>
       </div>
     </div>
   </mat-dialog-content>
-  
+
 
   
+
   
