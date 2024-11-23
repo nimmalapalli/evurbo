@@ -26,6 +26,9 @@ import { CustomDateAdapter } from '../custom-date-adapter'; // Import your custo
 import { startDateBeforeEndDateValidator } from '../startDateValidator';
 import { PaymentsuccessdialogComponent } from '../paymentsuccessdialog/paymentsuccessdialog.component';
 import { PaymentService } from '../services/paymentservice/payment.service';
+import { DialogModule } from 'primeng/dialog';  // Static import
+import { ButtonModule } from 'primeng/button';  // Static import
+import Swal from 'sweetalert2';
 declare var Razorpay: any;
 export const MY_DATE_FORMATS = {
   parse: {
@@ -56,6 +59,7 @@ export function ageValidator(minAge: number): ValidatorFn {
 @Component({
   selector: 'app-booking',
   standalone: true,
+
   imports: [RouterOutlet,BookingComponent,
     FormsModule,
     MatSelectModule,
@@ -80,7 +84,7 @@ CommonModule,
 PaymentgatewayComponent,
 BookingdialogComponent,
 MatDialogModule,
-
+DialogModule, ButtonModule
 
 
 
@@ -198,7 +202,21 @@ this.minEndDate = this.calculateTomorrowDate();
 
   }
 
-
+  openDialog(bookingData: any) {
+    Swal.fire({
+      title: 'Booking Information',
+      html: `
+        <div class="details">
+          <p><strong>Booking Number:</strong> ${bookingData.bookingNo}</p>
+          <p><strong>Booking Start Date:</strong> ${new Date(bookingData.startDate).toLocaleDateString()}</p>
+          <p><strong>Booking End Date:</strong> ${new Date(bookingData.endDate).toLocaleDateString()}</p>
+          <p><strong>Booking Amount:</strong> ₹${bookingData.bookingAmount}</p>
+        </div>
+      `,
+      icon: 'info',
+      confirmButtonText: 'OK'
+    });
+  }
   onEndDateChange(event: any) {
     const selectedDate: Date | null = event.value;
     if (selectedDate) {
@@ -462,7 +480,7 @@ this.minEndDate = this.calculateTomorrowDate();
      this.showConfirmation = false;
    }
  
- 
+
    payment() {
      // Check if necessary data exists
      const bookingAmount = this.bookingData?.bookingAmount; // Get the booking amount from the data
@@ -541,15 +559,24 @@ this.minEndDate = this.calculateTomorrowDate();
   //               height:'380px',
             
   //             });
-  const storage=JSON.parse(localStorage.getItem('bookingData') || '')
-  this.dialog.open(BookingdialogComponent, {
+  // const storage=JSON.parse(localStorage.getItem('bookingData') || '')
+  // this.dialog.open(BookingdialogComponent, {
 
-   data:storage,
-    width:'520px',
-    height:'380px',
+  //  data:storage,
+  //   width:'520px',
+  //   height:'380px',
 
-  });
- 
+  // });
+  const storage = localStorage.getItem('bookingData');
+  const bookingData = storage ? JSON.parse(storage) : null;
+
+  // If bookingData exists, open the dialog
+  if (bookingData) {
+    this.openDialog(bookingData); // Pass the data to openDialog
+  } else {
+    console.log('No booking data found in storage.');
+  }
+
      }, (error) => {
        // Handle the error case
        alert('Error during payment verification: ' + error.message);

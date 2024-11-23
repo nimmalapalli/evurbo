@@ -130,3 +130,7 @@ mat-card{
       display: none;
     }
   }
+
+  p-dialog {
+    --border: 2px solid black !important;
+  }
