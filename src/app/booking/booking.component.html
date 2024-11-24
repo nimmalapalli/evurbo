@@ -10,37 +10,37 @@
          
          
            <div >
-              <h2 class="mat-h2" style="text-align: start;">Choose Evurbo for seamless electric bike rentals </h2>
+              <h2 class="mat-h2" style="text-align: start;" >Choose Evurbo for seamless electric bike rentals </h2>
             </div>
               <div class="book-form-container">
                
                 <div class="card-1">
                   <mat-form-field appearance="outline">
-                    <mat-label>Mobile Number</mat-label>
+                    <mat-label >Mobile Number</mat-label>
                     <input matInput formControlName="mobileNo" (keyup)="getuserdeatails($event)" 
                            required 
                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)" 
                            autocomplete="new-password" 
                            id="mobileNoInput">
-                    <mat-error *ngIf="userForm.get('mobileNo')?.hasError('required')">
+                    <mat-error  *ngIf="userForm.get('mobileNo')?.hasError('required')">
                       Mobile Number is required
                     </mat-error>
-                    <mat-error *ngIf="userForm.get('mobileNo')?.hasError('pattern')">
+                    <mat-error  *ngIf="userForm.get('mobileNo')?.hasError('pattern')">
                       Invalid Mobile Number
                     </mat-error>
                   </mat-form-field>
                   <mat-form-field appearance="outline">
-                    <mat-label>First Name</mat-label>
+                    <mat-label >First Name</mat-label>
                     <input matInput  formControlName="firstName"   oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" >
-                    <mat-error *ngIf="userForm.get('firstName')?.hasError('required')">
+                    <mat-error   *ngIf="userForm.get('firstName')?.hasError('required')">
                       First Name is required
                     </mat-error>
                   </mat-form-field>
           
                   <mat-form-field appearance="outline">
-                    <mat-label>Last Name</mat-label>
+                    <mat-label >Last Name</mat-label>
                     <input matInput formControlName="lastName"  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" >
-                    <mat-error *ngIf="userForm.get('lastName')?.hasError('required')">
+                    <mat-error  *ngIf="userForm.get('lastName')?.hasError('required')">
                       Last Name is required
                     </mat-error>
                   </mat-form-field>
@@ -48,47 +48,47 @@
              
           
                   <mat-form-field appearance="outline">
-                    <mat-label>Date of Birth</mat-label>
+                    <mat-label >Date of Birth</mat-label>
                     <input matInput  [matDatepicker]="picker" formControlName="dob" required readonly> 
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
-                    <mat-error *ngIf="userForm.get('dob')?.hasError('required')">
+                    <mat-error  *ngIf="userForm.get('dob')?.hasError('required')">
                       Date of Birth is required
                     </mat-error>
-                    <mat-error *ngIf="userForm.get('dob')?.hasError('ageInvalid')">
+                    <mat-error  *ngIf="userForm.get('dob')?.hasError('ageInvalid')">
                       You must be at least 18 years old.
                     </mat-error>
                   </mat-form-field>
           
                   <mat-form-field appearance="outline">
-                    <mat-label>Email</mat-label>
+                    <mat-label >Email</mat-label>
                     <input matInput formControlName="email"  oninput="this.value = this.value.replace(/[^a-zA-Z0-9._%+-@]/g, '').slice(0, 50)"  required>
-                    <mat-error *ngIf="userForm.get('email')?.hasError('required')">
+                    <mat-error  *ngIf="userForm.get('email')?.hasError('required')">
                       Email is required
                     </mat-error>
-                    <mat-error *ngIf="userForm.get('email')?.hasError('email')">
+                    <mat-error  *ngIf="userForm.get('email')?.hasError('email')">
                       Invalid Email Address
                     </mat-error>
                   </mat-form-field>
           
                   <mat-form-field appearance="outline" class="license">
-                    <mat-label>License Number</mat-label>
+                    <mat-label >License Number</mat-label>
                     <input 
                       matInput 
                       formControlName="licenseNo"  
                       oninput="this.value = this.value.replace(/[^A-Z0-9-]/g, '').slice(0, 16)"   autocomplete="new-license" 
                       id="licenseInput"
                     >
-                    <mat-error *ngIf="userForm.get('licenseNo')?.hasError('required')">
+                    <mat-error  *ngIf="userForm.get('licenseNo')?.hasError('required')">
                       License Number is required
                     </mat-error>
-                    <mat-error *ngIf="userForm.get('licenseNo')?.hasError('pattern')">
+                    <mat-error  *ngIf="userForm.get('licenseNo')?.hasError('pattern')">
                       Invalid License Number 
                     </mat-error>
-                    <mat-error *ngIf="userForm.get('licenseNo')?.hasError('maxlength')">
+                    <mat-error  *ngIf="userForm.get('licenseNo')?.hasError('maxlength')">
                       License Number cannot exceed 16 characters
                     </mat-error>
-                    <mat-error *ngIf="userForm.get('licenseNo')?.hasError('minlength')">
+                    <mat-error  *ngIf="userForm.get('licenseNo')?.hasError('minlength')">
                       License Number must be at least 16 character long
                     </mat-error>
                   </mat-form-field>
@@ -98,43 +98,43 @@
               </div>
                 <div class="card-1">
                   <mat-form-field appearance="outline">
-                    <mat-label>Gender</mat-label>
+                    <mat-label >Gender</mat-label>
                     <mat-select  formControlName="gender" required>
                       <mat-option value="{{userDetails?.gender}}" *ngFor="let option of genderDetails" [value]="option.lookupID" autocomplete="off">{{option.lookupDescription}}</mat-option>
                   
                     </mat-select>
-                    <mat-error *ngIf="userForm.get('gender')?.hasError('required')">
+                    <mat-error  *ngIf="userForm.get('gender')?.hasError('required')">
                       Gender is required
                     </mat-error>
                   </mat-form-field>
           
                   <mat-form-field appearance="outline">
-                    <mat-label>Select Hub</mat-label>
+                    <mat-label >Select Hub</mat-label>
                     <mat-select formControlName="hub"  required>
                       @for (hubDetail of hubDetails; track hubDetail) {
                       <mat-option type="number" value="{{hubDetail.lookupID}}">{{hubDetail.lookupDescription}}</mat-option>
                       }
                     </mat-select>
-                    <mat-error *ngIf="userForm.get('hub')?.hasError('required')">
+                    <mat-error  *ngIf="userForm.get('hub')?.hasError('required')">
                       Hub selection is required
                     </mat-error>
                   </mat-form-field>
                   
                   <mat-form-field appearance="outline">
-                    <mat-label>Select Model</mat-label>
+                    <mat-label >Select Model</mat-label>
                     <mat-select formControlName="model"  required>
                       @for (modelDetail of modelDetails; track modelDetail) {
                       <mat-option type="number" value="{{modelDetail.lookupID}}">{{modelDetail.lookupDescription}}</mat-option>
                       }
                     </mat-select>
-                    <mat-error *ngIf="userForm.get('model')?.hasError('required')">
+                    <mat-error  *ngIf="userForm.get('model')?.hasError('required')">
                       Model selection is required
                     </mat-error>
                   </mat-form-field>
                   <div class="form-grid">
       
       <mat-form-field appearance="outline" class="exampli-field">
-        <mat-label>Start Date</mat-label>
+        <mat-label >Start Date</mat-label>
         <input 
           matInput 
           [matDatepicker]="pickerStart" 
@@ -147,13 +147,13 @@
         >
         <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
         <mat-datepicker #pickerStart></mat-datepicker>
-        <mat-error *ngIf="userForm.get('startDate')?.hasError('required')">
+        <mat-error  *ngIf="userForm.get('startDate')?.hasError('required')">
           Start Date is required
         </mat-error>
       </mat-form-field>
       
       <mat-form-field appearance="outline" class="exampli-field">
-        <mat-label>Start Time</mat-label>
+        <mat-label >Start Time</mat-label>
         <mat-select 
           (selectionChange)="onTimeChange($event.value)" 
           required 
@@ -170,7 +170,7 @@
       
       
       <mat-form-field appearance="outline" class="exampli-field">
-        <mat-label>End Date</mat-label>
+        <mat-label >End Date</mat-label>
         <input 
           matInput 
           [matDatepicker]="pickerEnd" 
@@ -183,16 +183,16 @@
         >
         <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
         <mat-datepicker #pickerEnd></mat-datepicker>
-        <mat-error *ngIf="userForm.get('endDate')?.hasError('required')">
+        <mat-error  *ngIf="userForm.get('endDate')?.hasError('required')">
           End Date is required
         </mat-error>
-        <mat-error *ngIf="userForm.hasError('startDateAfterEndDate')">
+        <mat-error  *ngIf="userForm.hasError('startDateAfterEndDate')">
           Start Date must be before End Date
         </mat-error>
       </mat-form-field>
       
       <mat-form-field appearance="outline" class="exampli-field">
-        <mat-label>End Time</mat-label>
+        <mat-label >End Time</mat-label>
       <input type="text" matInput [(ngModel)]="startTime" formControlName="endTime" readonly>
       
       </mat-form-field>
@@ -200,7 +200,7 @@
       
                   </div>
                   <mat-form-field appearance="outline" >
-                    <mat-label>Total Amount</mat-label>
+                    <mat-label >Total Amount</mat-label>
                     <input type="number" matInput value="{{ totalAmount }}" formControlName="bookingAmount"  readonly>
                     </mat-form-field>
                  
@@ -214,15 +214,15 @@
               </div>
               <br>
             <div class="flex-container">
-              <mat-checkbox formControlName="isAgreeTNC" required>
-                I accept the <a href="https://evurbo.energy/terms-and-conditions/" target="_blank">Terms and Conditions</a>
+              <mat-checkbox  formControlName="isAgreeTNC" required>
+                I accept the <a  href="https://evurbo.energy/terms-and-conditions/" target="_blank">Terms and Conditions</a>
               </mat-checkbox>
-              <mat-error *ngIf="showError && userForm.get('isAgreeTNC')?.hasError('required')">
+              <mat-error  *ngIf="showError && userForm.get('isAgreeTNC')?.hasError('required')">
                 You must accept the Terms and Conditions to proceed.
               </mat-error>
       <br>
       
-            <button class="submit-btn" mat-raised-button color="primary" type="submit">Proceed</button>
+            <button class="submit-btn" mat-raised-button color="primary" type="submit" >Proceed</button>
           </div>
  
         
@@ -233,8 +233,8 @@
         <img mat-card-image src="https://evurbo.energy/wp-content/uploads/2024/05/slider-img-011-1.png" alt="Photo of a Shiba Inu">
       </div> -->
     </mat-card-content>
-    <h3 class="explore-content" style="text-align: center;">Experience the convenience and eco-friendly charm of exploring the city on our rental ebikes.</h3>
-    <p class="end-content" style="text-align: center;">Visit Our website <a href="https://evurbo.energy/" target="_blank">EVURBO</a></p>
+    <h3  class="explore-content" style="text-align: center;">Experience the convenience and eco-friendly charm of exploring the city on our rental ebikes.</h3>
+    <p  class="end-content" style="text-align: center;">Visit Our website <a href="https://evurbo.energy/" target="_blank">EVURBO</a></p>
  
   </mat-card>
 

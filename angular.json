@@ -4,6 +4,13 @@
   "newProjectRoot": "projects",
   "projects": {
     "evurboweb": {
+      "i18n": {
+  "sourceLocale": "en",
+  "locales": {
+    "te": "src/locale/messages.te.xlf"
+ 
+  }
+},
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,6 +20,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "localize":[
+    "te"
+ 
+            ],
             "outputPath": "dist/evurboweb",
             "index": "src/index.html",
             "browser": "src/main.ts",

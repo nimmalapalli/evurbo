@@ -29,6 +29,12 @@ import { PaymentService } from '../services/paymentservice/payment.service';
 import { DialogModule } from 'primeng/dialog';  // Static import
 import { ButtonModule } from 'primeng/button';  // Static import
 import Swal from 'sweetalert2';
+
+import { HttpClient } from '@angular/common/http';
+import { Title } from '@angular/platform-browser';
+
+
+
 declare var Razorpay: any;
 export const MY_DATE_FORMATS = {
   parse: {
@@ -55,6 +61,7 @@ export function ageValidator(minAge: number): ValidatorFn {
     return age < minAge ? { 'ageInvalid': true } : null;
   };
 }
+
 
 @Component({
   selector: 'app-booking',
@@ -84,7 +91,8 @@ CommonModule,
 PaymentgatewayComponent,
 BookingdialogComponent,
 MatDialogModule,
-DialogModule, ButtonModule
+DialogModule, ButtonModule,
+
 
 
 
@@ -94,11 +102,12 @@ DialogModule, ButtonModule
       { provide: DateAdapter, useClass: CustomDateAdapter }, // Use custom date adapter
       { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }, // Use custom date formats
     ],
-
+   
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.css'
 })
 export class BookingComponent {
+  title='evuro'
   today: Date = new Date();
   showError = false;
   bookingData:any;
@@ -125,10 +134,10 @@ export class BookingComponent {
   activeBookingDetails: any = {};
   // Assuming daily rate is constant
   dailyRate = 299;
-  constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog,private paymentService: PaymentService) {
+  constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog,private paymentService: PaymentService,private titleservice:Title) {
     this.getgenderdeatails();
     this.generateTimeSlots();
- 
+     this.titleservice.setTitle($localize`${this.title}`)
 
 
     this.modelForm=this.fb.group({

@@ -10,5 +10,5 @@ import { MY_DATE_FORMATS } from './customdate';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes), provideClientHydration(), provideAnimationsAsync(), provideRouter(routes), provideClientHydration(), provideAnimationsAsync(), 
-    provideHttpClient(),  { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }]
+    provideHttpClient(),  { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },]
 };
