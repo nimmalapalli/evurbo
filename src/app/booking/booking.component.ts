@@ -221,7 +221,7 @@ this.minEndDate = this.calculateTomorrowDate();
           <p><strong>Booking Start Date:</strong> ${new Date(bookingData?.startDate).toLocaleDateString()}</p>
           <p><strong>Booking End Date:</strong> ${new Date(bookingData?.endDate).toLocaleDateString()}</p>
           <p><strong>Booking Amount:</strong> ₹${bookingData?.bookingAmount}</p>
-            <p><strong>OrderId:</strong> ${bookingData?.orderReferenceID}</p>
+      
              <p><strong>PaymentId:</strong> ${this.paymentID}</p>
         </div>
       `,
