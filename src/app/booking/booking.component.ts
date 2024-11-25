@@ -458,18 +458,21 @@ this.minEndDate = this.calculateTomorrowDate();
               localStorage.setItem('bookingData', JSON.stringify(this.bookingData));
            
               this.payment()
+              this.userForm.markAsUntouched();
         }  
   if(res.statusCode=400){
+    
+
     this.snackBar.open(JSON.stringify(res.message), 'Close', {
       duration: 3000,
       panelClass: ['success-snackbar']
     })
+    this.userForm.markAsUntouched();
   }
 
        
         this.userForm.reset();
 
-        this.userForm.markAsUntouched();
         
       });
     }
