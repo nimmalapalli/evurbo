@@ -1,5 +1,5 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 import { MatFormField, MatInput, MatInputModule, MatLabel } from '@angular/material/input';
 import { MatSelect, MatSelectModule } from '@angular/material/select';
@@ -134,7 +134,7 @@ export class BookingComponent {
   activeBookingDetails: any = {};
   // Assuming daily rate is constant
   dailyRate = 299;
-  constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog,private paymentService: PaymentService,private titleservice:Title) {
+  constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog,private paymentService: PaymentService,private titleservice:Title,private router:Router) {
     this.getgenderdeatails();
     this.generateTimeSlots();
      this.titleservice.setTitle($localize`${this.title}`)
@@ -221,12 +221,16 @@ this.minEndDate = this.calculateTomorrowDate();
           <p><strong>Booking Start Date:</strong> ${new Date(bookingData?.startDate).toLocaleDateString()}</p>
           <p><strong>Booking End Date:</strong> ${new Date(bookingData?.endDate).toLocaleDateString()}</p>
           <p><strong>Booking Amount:</strong> ₹${bookingData?.bookingAmount}</p>
-      
-             <p><strong>PaymentId:</strong> ${this.paymentID}</p>
+          <p><strong>PaymentId:</strong> ${this.paymentID}</p>
         </div>
       `,
       icon: 'info',
       confirmButtonText: 'OK'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Redirect after confirmation
+        window.location.href = 'https://evurbo.energy';
+      }
     });
   }
   onEndDateChange(event: any) {
