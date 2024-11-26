@@ -475,7 +475,7 @@ this.minEndDate = this.calculateTomorrowDate();
   }
 
        
-        this.userForm.reset();
+     
 
         
       });
