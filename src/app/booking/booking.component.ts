@@ -20,7 +20,7 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { PaymentgatewayComponent } from '../paymentgateway/paymentgateway.component';
 import { BookingserviceService } from '../services/bookingservice.service';
-import { BookingdialogComponent } from '../bookingdialog/bookingdialog.component';
+
 
 import { CustomDateAdapter } from '../custom-date-adapter'; // Import your custom adapter
 import { startDateBeforeEndDateValidator } from '../startDateValidator';
@@ -89,7 +89,7 @@ NgFor,
 MatSnackBarModule,
 CommonModule,
 PaymentgatewayComponent,
-BookingdialogComponent,
+
 MatDialogModule,
 DialogModule, ButtonModule,
 
@@ -616,16 +616,10 @@ this.minEndDate = this.calculateTomorrowDate();
        dialogRef.close();
      }, 1000);
    }
-  opendiaalog(){
-    this.dialog.open(BookingdialogComponent, {
-      data: {name:this.bookingData},
-      width:'520px',
-      height:'380px',
-      panelClass: 'custom-dialog-container',
-    });
+
 
  
-  }
+
 
 
   gethubdeatails(){
