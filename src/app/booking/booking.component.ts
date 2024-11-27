@@ -474,13 +474,14 @@ this.minEndDate = this.calculateTomorrowDate();
         if (res.statusCode === 200) { 
           this.payment();
         
-        } else if (res.statusCode === 400) {
-          this.snackBar.open(res.message, 'Close', { 
-            duration: 3000,
-            panelClass: ['error-snackbar'] 
-          });
+        } 
+        // else if (res.statusCode === 400) {
+        //   this.snackBar.open(res.message, 'Close', { 
+        //     duration: 3000,
+        //     panelClass: ['error-snackbar'] 
+        //   });
         
-        }
+        // }
 
        
      
