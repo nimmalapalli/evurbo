@@ -630,12 +630,7 @@ this.minEndDate = this.calculateTomorrowDate();
     })
   }
 
-  // onPaymentSuccess(): void {
-  //   this.dialog.open(PaymentsuccessdialogComponent, {
-  //     width: '400px',
-  //     data: { message: 'Payment Successful!' },
-  //   });
-  // }
+
   getmodeldeatails(){
     const data ={ Category:'MODEL'
     }
