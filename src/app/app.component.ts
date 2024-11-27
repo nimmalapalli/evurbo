@@ -9,7 +9,9 @@ import { NavComponent } from './nav/nav.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet,NavComponent],
+  imports: [CommonModule, RouterOutlet,NavComponent
+    
+  ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
