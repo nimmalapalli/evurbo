@@ -18,16 +18,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar'
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { PaymentgatewayComponent } from '../paymentgateway/paymentgateway.component';
+
 import { BookingserviceService } from '../services/bookingservice.service';
 
 
 import { CustomDateAdapter } from '../custom-date-adapter'; // Import your custom adapter
 import { startDateBeforeEndDateValidator } from '../startDateValidator';
-import { PaymentsuccessdialogComponent } from '../paymentsuccessdialog/paymentsuccessdialog.component';
+
 import { PaymentService } from '../services/paymentservice/payment.service';
-import { DialogModule } from 'primeng/dialog';  // Static import
-import { ButtonModule } from 'primeng/button';  // Static import
+
 import Swal from 'sweetalert2';
 
 import { HttpClient } from '@angular/common/http';
@@ -88,10 +87,10 @@ MatCardModule,
 NgFor,
 MatSnackBarModule,
 CommonModule,
-PaymentgatewayComponent,
+
 
 MatDialogModule,
-DialogModule, ButtonModule,
+
 
 
 
@@ -503,34 +502,27 @@ this.minEndDate = this.calculateTomorrowDate();
  
    onConfirm(answer: boolean) {
      if (answer) {
-       // this.payment();
+    
      }
      this.showConfirmation = false;
    }
  
 
    payment() {
-     // Check if necessary data exists
-     const bookingAmount = this.bookingData?.bookingAmount; // Get the booking amount from the data
+  
+     const bookingAmount = this.bookingData?.bookingAmount; 
      console.log(bookingAmount);
      const orderId = this.bookingData?.orderReferenceID;
      
-     // Ensure data is available before proceeding
+
      if (!bookingAmount || !orderId) {
        alert('Required payment details are missing.');
        return;
      }
      
-     // Initiating Razorpay Payment with dynamic booking amount
+   
      this.initiateRazorpayPayment(orderId, bookingAmount, 'INR');
-    // const storage=JSON.parse(localStorage.getItem('bookingData') || '')
-    // this.dialog.open(BookingdialogComponent, {
-
-    //  data:storage,
-    //   width:'520px',
-    //   height:'380px',
   
-    // });
    }
    
    initiateRazorpayPayment(orderId: string, amount: number, currency: string) {
@@ -573,28 +565,12 @@ this.minEndDate = this.calculateTomorrowDate();
    verifyPayment(bookingID: number, orderReferenceID: string, paymentID: string, signature: string) {
    
    
-     // Call the payment service to verify the payment
+   
      this.paymentService.verifyPayment(bookingID, orderReferenceID, paymentID, signature).subscribe((verificationResponse: any) => {
        console.log(verificationResponse)
        console.log(verificationResponse.data)
        this.paymentID=verificationResponse.data
-    //  this.onPaymentSuccess();
-  //  const storage=localStorage.getItem('bookingData')
-  //             this.dialog.open(BookingdialogComponent, {
-          
-  //              data:storage,
-  //               width:'520px',
-  //               height:'380px',
-            
-  //             });
-  // const storage=JSON.parse(localStorage.getItem('bookingData') || '')
-  // this.dialog.open(BookingdialogComponent, {
 
-  //  data:storage,
-  //   width:'520px',
-  //   height:'380px',
-
-  // });
 
     this.openDialog(this.bookingData); // Pass the data to openDialog
  
@@ -604,18 +580,7 @@ this.minEndDate = this.calculateTomorrowDate();
        alert('Error during payment verification: ' + error.message);
      });
    }
-   onPaymentSuccess(): void {
-     const dialogRef =  this.dialog.open(PaymentsuccessdialogComponent, {
-       width: '400px',
-       data: { message: 'Payment Successful!',
-        
-        },
 
-     });
-     setTimeout(() => {
-       dialogRef.close();
-     }, 1000);
-   }
 
 
  
@@ -702,26 +667,7 @@ this.minEndDate = this.calculateTomorrowDate();
   }
   
 
-  restrictInput(event: any, pattern: RegExp): void {
-    const regex = new RegExp(pattern, 'g');
-    const input = event.target.value.replace(regex, '');
-    this.userForm.controls['mobileNo'].setValue(input, { emitEvent: false });
-  }
-  restrictInput1(event: any, pattern: RegExp, controlName: string): void {
-    const regex = new RegExp(pattern, 'g');
-    const input = event.target.value.replace(regex, '');
-    this.userForm.controls['firstName'].setValue(input, { emitEvent: false });
-  }
-  restrictInput2(event: any, pattern: RegExp, controlName: string): void {
-    const regex = new RegExp(pattern, 'g');
-    const input = event.target.value.replace(regex, '');
-    this.userForm.controls['lastName'].setValue(input, { emitEvent: false });
-  }
-  restrictInput3(event: any, pattern: RegExp, controlName: string): void {
-    const regex = new RegExp(pattern, 'g');
-  const input = event.target.value.replace(regex, '');
-    this.userForm.controls['licenseNo'].setValue(input, { emitEvent: false });
-  }
+
   
   
 }

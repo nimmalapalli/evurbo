@@ -26,8 +26,6 @@
     "express": "^4.18.2",
     "jspdf": "^2.5.2",
     "node-modules": "^1.0.1",
-    "primeicons": "^7.0.0",
-    "primeng": "^17.18.12",
     "razorpay": "^2.9.5",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.14.5",

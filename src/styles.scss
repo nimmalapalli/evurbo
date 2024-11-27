@@ -47,26 +47,3 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   
   }
 
-/* Force the background color of the dialog */
-p-dialog {
-  background-color: #ffffff !important;  /* Solid white background */
-  opacity: 1 !important;  /* Ensure the opacity is fully visible */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  /* Optional: Add a shadow for better visibility */
-}
-
-/* Make sure the backdrop (overlay) is not transparent */
-.ui-widget-overlay {
-  background-color: rgba(0, 0, 0, 0.5) !important;  /* Semi-transparent dark overlay */
-}
-
-/* Ensure the dialog header has a solid background */
-p-dialog .ui-dialog-titlebar {
-  background-color: #007bff;  /* Example: Blue background for the header */
-  color: #fff;  /* White text color */
-}
-
-/* Ensure the footer buttons are styled */
-p-footer button {
-  background-color: #007bff;
-  color: white;
-}
