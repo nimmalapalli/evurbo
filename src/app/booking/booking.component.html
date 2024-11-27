@@ -112,7 +112,7 @@
                     <mat-label >Select Hub</mat-label>
                     <mat-select formControlName="hub"  required>
                       @for (hubDetail of hubDetails; track hubDetail) {
-                      <mat-option type="number" value="{{hubDetail.lookupID}}">{{hubDetail.lookupDescription}}</mat-option>
+                      <mat-option type="number" value="{{hubDetail?.lookupID}}">{{hubDetail.lookupDescription}}</mat-option>
                       }
                     </mat-select>
                     <mat-error  *ngIf="userForm.get('hub')?.hasError('required')">
@@ -124,7 +124,7 @@
                     <mat-label >Select Model</mat-label>
                     <mat-select formControlName="model"  required>
                       @for (modelDetail of modelDetails; track modelDetail) {
-                      <mat-option type="number" value="{{modelDetail.lookupID}}">{{modelDetail.lookupDescription}}</mat-option>
+                      <mat-option type="number" value="{{modelDetail?.lookupID}}">{{modelDetail.lookupDescription}}</mat-option>
                       }
                     </mat-select>
                     <mat-error  *ngIf="userForm.get('model')?.hasError('required')">

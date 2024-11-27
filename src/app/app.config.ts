@@ -9,6 +9,6 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from './customdate';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideClientHydration(), provideAnimationsAsync(), provideRouter(routes), provideClientHydration(), provideAnimationsAsync(), 
+  providers: [provideRouter(routes), provideClientHydration(), provideAnimationsAsync(), provideClientHydration(), provideAnimationsAsync(), 
     provideHttpClient(),  { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },]
 };
