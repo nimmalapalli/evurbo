@@ -132,6 +132,7 @@ export class BookingComponent {
   minEndDate: Date;
   mobileNo!:Number;
   activeBookingDetails: any = {};
+  filteredTimeSlots: string[] = [];
   // Assuming daily rate is constant
   dailyRate = 299;
   constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog,private paymentService: PaymentService,private titleservice:Title,private router:Router) {
@@ -174,7 +175,7 @@ export class BookingComponent {
 
 
 });
-
+this.filterTimeSlots()
 this.userForm.get('startTime')?.valueChanges.subscribe(() => {
   this.isStarttimeSelected = true;
   this.filterEndTimes();
@@ -267,7 +268,21 @@ this.minEndDate = this.calculateTomorrowDate();
     }
     return null;
   };
+  // Generate time slots between 8:00 and 20:00
+  private generateTimeSlots(): void {
+    for (let hour = 8; hour <= 20; hour++) {
+      this.timeSlots.push(`${hour}:00`);
+    }
+  }
 
+  // Filter out times before the current hour
+  private filterTimeSlots(): void {
+    const currentHour = new Date().getHours();
+    this.filteredTimeSlots = this.timeSlots.filter((time) => {
+      const hour = parseInt(time.split(':')[0], 10); // Extract hour from "hour:00"
+      return hour >= currentHour;
+    });
+  }
   // Implement your method to generate time slots
   getTimeSlots(): string[] {
     const slots: string[] = [];
@@ -277,12 +292,12 @@ this.minEndDate = this.calculateTomorrowDate();
   // Handle changes to the end time
  
   // Function to generate time slots
-  private generateTimeSlots(): void {
-    for (let hour = 0; hour < 24; hour++) {
-      const time = this.formatTime(hour);
-      this.timeSlots.push(time);
-    }
-  }
+  // private generateTimeSlots(): void {
+  //   for (let hour = 0; hour < 24; hour++) {
+  //     const time = this.formatTime(hour);
+  //     this.timeSlots.push(time);
+  //   }
+  // }
 
   // Helper function to format the hour as hh:mm
   private formatTime(hour: number): string {
@@ -453,26 +468,20 @@ this.minEndDate = this.calculateTomorrowDate();
   
       console.log('Form Data:', data);
   
-      // Call the API
+     
       this.bookingservice.saveBooking(data).subscribe((res: any) => {
         console.log(res);
         this.bookingData = res.data;
-        if(res.statusCode=200){
-              // Store bookingData in localStorage
-              localStorage.setItem('bookingData', JSON.stringify(this.bookingData));
-           
-              this.payment()
-              this.userForm.markAsUntouched();
-        }  
-  if(res.statusCode=400){
-    
-
-    this.snackBar.open(JSON.stringify(res.message), 'Close', {
-      duration: 3000,
-      panelClass: ['success-snackbar']
-    })
-    this.userForm.markAsUntouched();
-  }
+        if (res.statusCode === 200) { 
+          this.payment();
+        
+        } else if (res.statusCode === 400) {
+          this.snackBar.open(res.message, 'Close', { 
+            duration: 3000,
+            panelClass: ['error-snackbar'] 
+          });
+        
+        }
 
        
      
@@ -680,10 +689,7 @@ this.minEndDate = this.calculateTomorrowDate();
 
         // If res.data is null, show the no data message
         if (res.data == "") {
-          this.snackBar.open('No active booking found for this user.', 'Close', {
-            duration: 3000,
-            panelClass: ['error-snackbar']
-          });
+      
         } else {
           this.activeBookingDetails = res.data; // Store active booking details separately
           
