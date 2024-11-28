@@ -111,7 +111,7 @@ export class BookingComponent {
   showError = false;
   bookingData:any;
   userForm!: FormGroup;
-  timeSlots: string[] = [];
+
   modelDetails:any;
   hubDetails:any;
   modelForm!:FormGroup;
@@ -132,11 +132,13 @@ export class BookingComponent {
   mobileNo!:Number;
   activeBookingDetails: any = {};
   filteredTimeSlots: string[] = [];
-  // Assuming daily rate is constant
+  timeSlots: string[] = [];
+
+  timeSlotsAll: string[] = []; 
   dailyRate = 299;
   constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog,private paymentService: PaymentService,private titleservice:Title,private router:Router) {
     this.getgenderdeatails();
-    this.generateTimeSlots();
+ 
      this.titleservice.setTitle($localize`${this.title}`)
 
 
@@ -145,7 +147,7 @@ export class BookingComponent {
     })
  this.gethubdeatails();
  this.getmodeldeatails();
-
+ this.updateTimeSlotsForToday()
  this.userForm = this.fb.group({
   "bookingID": 0,
   bookingNo: [''],
@@ -174,7 +176,8 @@ export class BookingComponent {
 
 
 });
-this.populateTimeSlots()
+
+// this.populateTimeSlots()
 // this.filterTimeSlots()
 this.userForm.get('startTime')?.valueChanges.subscribe(() => {
   this.isStarttimeSelected = true;
@@ -195,9 +198,53 @@ this.minEndDate = this.calculateTomorrowDate();
     tomorrow.setDate(tomorrow.getDate() + 1); // Add 1 day to current date
     return tomorrow;
   }
+
+
+
+  updateTimeSlotsForToday() {
+    const now = new Date();
+    const currentHour = now.getHours();
+
+    // Generate time slots dynamically starting from the current hour
+    this.timeSlots = this.generateTimeSlots(currentHour, 20);
+    this.isStarttimeSelected = true;
+  }
+
+  // Update time slots for tomorrow and onwards (only 8 AM to 8 PM)
+  updateTimeSlotsForFuture() {
+    // Generate time slots between 8 AM and 8 PM for future dates
+    this.timeSlots = this.generateTimeSlots(8, 20);
+    this.isStarttimeSelected = true;
+  }
+
+// Helper function to generate time slots between a start hour and an end hour with hourly intervals
+generateTimeSlots(startHour: number, endHour: number): string[] {
+  const timeSlots: string[] = [];
+  for (let hour = startHour; hour <= endHour; hour++) {
+    // Add time slot at the start of each hour (e.g., 08:00, 09:00, ...)
+    const time = `${this.formatTime(hour)}:00`;
+    timeSlots.push(time);
+  }
+  return timeSlots;
+}
+
+  // Helper function to format hours and minutes to two digits (e.g., 08, 09, 00, 30)
+  formatTime(time: number): string {
+    return time < 10 ? `0${time}` : `${time}`;
+  }
    // Update the combined form control value when the date changes
    onDateChange(event:any) {
-    const selectedDate: Date  = event.value  ; // Access the date value properly
+    const selectedDate = new Date(event.value);
+    const now = new Date();
+
+    // If the selected date is today, filter out past hours
+    if (selectedDate.toDateString() === now.toDateString()) {
+      this.updateTimeSlotsForToday();
+    } else {
+      // If the selected date is tomorrow or later, show all time slots
+      this.updateTimeSlotsForFuture();
+    }
+   
     const time = this.startDate ? this.startDate.toTimeString() : '00:00:00';
     this.startDate = new Date(selectedDate); // Set the selected date
     this.startDate.setHours(parseInt(time.split(':')[0]), parseInt(time.split(':')[1])); // Keep the time part
@@ -268,12 +315,7 @@ this.minEndDate = this.calculateTomorrowDate();
     }
     return null;
   };
-  // Generate time slots between 8:00 and 20:00
-  private generateTimeSlots(): void {
-    for (let hour = 8; hour <= 20; hour++) {
-      this.timeSlots.push(`${hour}:00`);
-    }
-  }
+
 
   // Filter out times before the current hour
   private filterTimeSlots(): void {
@@ -300,9 +342,6 @@ this.minEndDate = this.calculateTomorrowDate();
   // }
 
   // Helper function to format the hour as hh:mm
-  private formatTime(hour: number): string {
-    return hour < 10 ? `0${hour}:00` : `${hour}:00`; // Return in hh:mm format
-  }
 
 // Handles start time change
 // onTimeChange(selectedTime: string): void {

@@ -132,39 +132,40 @@
                     </mat-error>
                   </mat-form-field>
                   <div class="form-grid">
-      
-      <mat-form-field appearance="outline" class="exampli-field">
-        <mat-label >Start Date</mat-label>
-        <input 
-          matInput 
-          [matDatepicker]="pickerStart" 
-          (dateChange)="onDateChange($event)" 
-          [(ngModel)]="startDate"  
-          [min]="today" 
-          required 
-          placeholder="dd/mm/yyyy"
-          readonly
-        >
-        <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
-        <mat-datepicker #pickerStart></mat-datepicker>
-        <mat-error  *ngIf="userForm.get('startDate')?.hasError('required')">
-          Start Date is required
-        </mat-error>
-      </mat-form-field>
-      
-      <mat-form-field appearance="outline" class="exampli-field">
-        <mat-label>Start Time</mat-label>
-        <mat-select 
-          (selectionChange)="onTimeChange($event.value)" 
-          required 
-          [(ngModel)]="startTime"
-          [disabled]="!isStarttimeSelected"
-          formControlName="startTime">
-          <mat-option *ngFor="let time of timeSlots" [value]="time">
-            {{ time }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+                    <mat-form-field appearance="outline" class="exampli-field">
+                      <mat-label>Start Date</mat-label>
+                      <input
+                        matInput
+                        [matDatepicker]="pickerStart"
+                        (dateChange)="onDateChange($event)"
+                        [(ngModel)]="startDate"
+                        [min]="today"
+                        required
+                        placeholder="dd/mm/yyyy"
+                        readonly
+                      >
+                      <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                      <mat-datepicker #pickerStart></mat-datepicker>
+                      <mat-error *ngIf="userForm.get('startDate')?.hasError('required')">
+                        Start Date is required
+                      </mat-error>
+                    </mat-form-field>
+                    
+                    <mat-form-field appearance="outline" class="exampli-field">
+                      <mat-label>Start Time</mat-label>
+                      <mat-select
+                        (selectionChange)="onTimeChange($event.value)"
+                        required
+                        [(ngModel)]="startTime"
+                        [disabled]="!isStarttimeSelected"
+                        formControlName="startTime"
+                      >
+                        <mat-option *ngFor="let time of timeSlots" [value]="time">
+                          {{ time }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    
       
       
       
