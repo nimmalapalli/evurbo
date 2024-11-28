@@ -31,7 +31,7 @@
                   </mat-form-field>
                   <mat-form-field appearance="outline">
                     <mat-label >First Name</mat-label>
-                    <input matInput  formControlName="firstName"   oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" readonly>
+                    <input matInput  formControlName="firstName"   oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)">
                     <mat-error   *ngIf="userForm.get('firstName')?.hasError('required')">
                       First Name is required
                     </mat-error>
@@ -39,7 +39,7 @@
           
                   <mat-form-field appearance="outline">
                     <mat-label >Last Name</mat-label>
-                    <input matInput formControlName="lastName"  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" readonly>
+                    <input matInput formControlName="lastName"  oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').slice(0, 50)" >
                     <mat-error  *ngIf="userForm.get('lastName')?.hasError('required')">
                       Last Name is required
                     </mat-error>
@@ -62,7 +62,7 @@
           
                   <mat-form-field appearance="outline">
                     <mat-label >Email</mat-label>
-                    <input matInput formControlName="email"  oninput="this.value = this.value.replace(/[^a-zA-Z0-9._%+-@]/g, '').slice(0, 50)" readonly required>
+                    <input matInput formControlName="email"  oninput="this.value = this.value.replace(/[^a-zA-Z0-9._%+-@]/g, '').slice(0, 50)"  required>
                     <mat-error  *ngIf="userForm.get('email')?.hasError('required')">
                       Email is required
                     </mat-error>
@@ -153,7 +153,7 @@
       </mat-form-field>
       
       <mat-form-field appearance="outline" class="exampli-field">
-        <mat-label >Start Time</mat-label>
+        <mat-label>Start Time</mat-label>
         <mat-select 
           (selectionChange)="onTimeChange($event.value)" 
           required 
@@ -164,7 +164,6 @@
             {{ time }}
           </mat-option>
         </mat-select>
-      
       </mat-form-field>
       
       

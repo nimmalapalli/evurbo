@@ -174,7 +174,8 @@ export class BookingComponent {
 
 
 });
-this.filterTimeSlots()
+this.populateTimeSlots()
+// this.filterTimeSlots()
 this.userForm.get('startTime')?.valueChanges.subscribe(() => {
   this.isStarttimeSelected = true;
   this.filterEndTimes();
@@ -494,7 +495,30 @@ this.minEndDate = this.calculateTomorrowDate();
   bookingID=0;
    paymentform!: FormGroup;
    showConfirmation: boolean = false;
- 
+   populateTimeSlots(): void {
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+    const startTimeLimit = 8;  // Start time at 8 AM
+    const endTimeLimit = 20;   // End time at 8 PM
+
+    // Loop through the range of hours from 8 AM to 8 PM (1-hour intervals)
+    for (let i = startTimeLimit; i <= endTimeLimit; i++) {
+      const hour = i < 10 ? '0' + i : i;  // Format hour to 2 digits
+      this.timeSlots.push(`${hour}:00`);
+    }
+
+    // Disable past time slots based on the current hour
+    this.timeSlots = this.timeSlots.filter(time => {
+      const [hour, minute] = time.split(':');
+      if (parseInt(hour) < currentHour) {
+        return false;  // Disable past hours
+      }
+      if (parseInt(hour) === currentHour && parseInt(minute) <= currentDate.getMinutes()) {
+        return false;  // Disable past minutes in the current hour
+      }
+      return true;
+    });
+  }
 
  
    confirmPayment() {
