@@ -203,11 +203,15 @@ this.minEndDate = this.calculateTomorrowDate();
 
   updateTimeSlotsForToday() {
     const now = new Date();
-    const currentHour = now.getHours();
+  const currentHour = now.getHours();
+  const currentMinute = now.getMinutes();
 
-    // Generate time slots dynamically starting from the current hour
-    this.timeSlots = this.generateTimeSlots(currentHour, 20);
-    this.isStarttimeSelected = true;
+  // If current minute is past 30, move to the next hour
+  const startHour = (currentMinute >= 30) ? currentHour + 1 : currentHour;
+
+  // Generate time slots starting from the next hour or the current hour if not passed the half
+  this.timeSlots = this.generateTimeSlots(startHour, 20); // Show slots from current hour or next, up to 8 PM
+  this.isStarttimeSelected = true;
   }
 
   // Update time slots for tomorrow and onwards (only 8 AM to 8 PM)
