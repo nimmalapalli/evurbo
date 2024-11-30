@@ -139,7 +139,7 @@ export class BookingComponent {
   constructor(private fb: FormBuilder,private bookingservice:BookingserviceService,private snackBar:MatSnackBar,public dialog: MatDialog,private paymentService: PaymentService,private titleservice:Title,private router:Router) {
     this.getgenderdeatails();
  
-     this.titleservice.setTitle($localize`${this.title}`)
+    this.titleservice.setTitle('Evurbo');
 
 
     this.modelForm=this.fb.group({

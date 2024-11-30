@@ -59,19 +59,19 @@ export class NavComponent {
   
   ngOnInit(): void {
 
-    this.toggleControl.valueChanges.subscribe(
-      (darkMode:any)=>{
-        this.className= darkMode ? this.darkClassName : this.lightClassName;
-        if(darkMode){
-          this.overlay.getContainerElement().classList.add(this.darkClassName);
+    // this.toggleControl.valueChanges.subscribe(
+    //   (darkMode:any)=>{
+    //     this.className= darkMode ? this.darkClassName : this.lightClassName;
+    //     if(darkMode){
+    //       this.overlay.getContainerElement().classList.add(this.darkClassName);
   
-        }else{
-          this.overlay.getContainerElement().classList.remove(this.darkClassName);
-        }
+    //     }else{
+    //       this.overlay.getContainerElement().classList.remove(this.darkClassName);
+    //     }
   
-      }
+    //   }
 
-    )
+    // )
    
         // Listen for online and offline events
         if (isPlatformBrowser(this.platformId)) {

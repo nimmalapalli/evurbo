@@ -10,12 +10,7 @@
    
       <img src="https://evurbo.energy/wp-content/uploads/2024/04/cropped-Logo-01.png" alt="evurbo logo" width="60px" height="60px" >
       <span class="example-spacer"></span>
-      <div class="theme-toggle-container">
-    
-          <mat-icon mat-stroked-button  (click)="toggleTheme()" matRipple   mat-raised-button
-          matTooltip="{{ toggleControl.value ? 'Switch to Light Mode' : 'Switch to Dark Mode' }}">{{ toggleControl.value ? 'wb_sunny' : 'nights_stay' }}</mat-icon>
-    
-      </div>
+ 
     </mat-toolbar>
 
     <router-outlet *ngIf="isOnline"></router-outlet>
