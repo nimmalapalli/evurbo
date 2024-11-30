@@ -139,6 +139,7 @@
                         [matDatepicker]="pickerStart"
                         (dateChange)="onDateChange($event)"
                         [(ngModel)]="startDate"
+                        [ngModelOptions]="{standalone: true}"
                         [min]="today"
                         required
                         placeholder="dd/mm/yyyy"
@@ -176,6 +177,7 @@
           [matDatepicker]="pickerEnd" 
           (dateChange)="onEndDateChange($event)" 
           [(ngModel)]="endDate"  
+          [ngModelOptions]="{standalone: true}"
           [min]="minEndDate" 
           required 
           placeholder="dd/mm/yyyy"
