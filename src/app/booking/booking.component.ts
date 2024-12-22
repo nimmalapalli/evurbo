@@ -207,7 +207,7 @@ this.minEndDate = this.calculateTomorrowDate();
   const currentMinute = now.getMinutes();
 
   // If current minute is past 30, move to the next hour
-  const startHour = (currentMinute >= 30) ? currentHour + 1 : currentHour;
+  const startHour = (currentMinute >= 1) ? currentHour + 1 : currentHour;
 
   // Generate time slots starting from the next hour or the current hour if not passed the half
   this.timeSlots = this.generateTimeSlots(startHour, 20); // Show slots from current hour or next, up to 8 PM
