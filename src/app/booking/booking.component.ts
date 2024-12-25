@@ -633,7 +633,7 @@ generateTimeSlots(startHour: number, endHour: number): string[] {
    verifyPayment(bookingID: number, orderReferenceID: string, paymentID: string, signature: string) {
     this.paymentService.verifyPayment(bookingID, orderReferenceID, paymentID, signature).subscribe(
       (verificationResponse: any) => {
-        console.log(verificationResponse);
+ 
   
      
         if (verificationResponse && verificationResponse.data) {
