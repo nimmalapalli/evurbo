@@ -631,23 +631,29 @@ generateTimeSlots(startHour: number, endHour: number): string[] {
    
    
    verifyPayment(bookingID: number, orderReferenceID: string, paymentID: string, signature: string) {
-   
-   
-   
-     this.paymentService.verifyPayment(bookingID, orderReferenceID, paymentID, signature).subscribe((verificationResponse: any) => {
-       console.log(verificationResponse)
-       console.log(verificationResponse.data)
-       this.paymentID=verificationResponse.data
-
-
-    this.openDialog(this.bookingData); // Pass the data to openDialog
- 
-
-     }, (error) => {
-       // Handle the error case
-       alert('Error during payment verification: ' + error.message);
-     });
-   }
+    this.paymentService.verifyPayment(bookingID, orderReferenceID, paymentID, signature).subscribe(
+      (verificationResponse: any) => {
+        console.log(verificationResponse);
+  
+     
+        if (verificationResponse && verificationResponse.data) {
+          this.paymentID = verificationResponse.data;
+  
+       
+          this.openDialog(this.bookingData);
+          this.snackBar.open('Payment verification successful!');
+        } else {
+          // Else condition: PaymentID is not present or invalid
+          this.snackBar.open('Payment verification failed: Invalid payment ID.');
+        }
+      },
+      (error) => {
+        // Error case: Handle API call error
+       this.snackBar.open('Error during payment verification: ' + error.message);
+      }
+    );
+  }
+  
 
 
 
