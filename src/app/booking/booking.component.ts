@@ -31,6 +31,7 @@ import Swal from 'sweetalert2';
 
 import { HttpClient } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
+import { Console } from 'node:console';
 
 
 
@@ -596,7 +597,7 @@ generateTimeSlots(startHour: number, endHour: number): string[] {
    initiateRazorpayPayment(orderId: string, amount: number, currency: string) {
     
    
-     const bookingNo = this.bookingData?.bookingNo;
+     const bookingNo = this.bookingData?.bookingID;
      console.log(amount)
      // Razorpay payment options
      const RazorpayOptions = {
@@ -634,18 +635,14 @@ generateTimeSlots(startHour: number, endHour: number): string[] {
     this.paymentService.verifyPayment(bookingID, orderReferenceID, paymentID, signature).subscribe(
       (verificationResponse: any) => {
  
-  
+       console.log(verificationResponse)
      
-        if (verificationResponse && verificationResponse.data) {
-          this.paymentID = verificationResponse.data;
+       this.paymentID=verificationResponse.data
   
        
           this.openDialog(this.bookingData);
           this.snackBar.open('Payment verification successful!');
-        } else {
-          // Else condition: PaymentID is not present or invalid
-          this.snackBar.open('Payment verification failed: Invalid payment ID.');
-        }
+      
       },
       (error) => {
         // Error case: Handle API call error
