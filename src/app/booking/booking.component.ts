@@ -33,7 +33,12 @@ import { HttpClient } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
 import { Console } from 'node:console';
 
-
+ interface BookingPriceResponse {
+  statusCode: number;
+  name: string;
+  message: string;
+  data: number;
+}
 
 declare var Razorpay: any;
 export const MY_DATE_FORMATS = {
@@ -120,7 +125,7 @@ export class BookingComponent {
   endDate: Date = new Date();
   genderDetails:any;
   ratePerHour: number = 100; // Example rate per hour in INR
-  totalAmount: number | undefined;
+  totalAmount: any;
   userDetails:any;
   code:any;
   isStartDateSelected: boolean = false;
@@ -254,7 +259,7 @@ generateTimeSlots(startHour: number, endHour: number): string[] {
     this.startDate = new Date(selectedDate); // Set the selected date
     this.startDate.setHours(parseInt(time.split(':')[0]), parseInt(time.split(':')[1])); // Keep the time part
     this.userForm.get('startDate')?.setValue(this.startDate); // Update the form control
-    this.calculateTotalAmount();
+
     this.isStarttimeSelected = true; 
     this.filteredEndTimes = [...this.timeSlots]; 
     if (this.startDate) {
@@ -262,7 +267,7 @@ generateTimeSlots(startHour: number, endHour: number): string[] {
       newMinDate.setDate(newMinDate.getDate() + 1);
       this.minEndDate = newMinDate;
     }
-
+  this.getPrice()
   }
 
   openDialog(bookingData: any) {
@@ -297,8 +302,8 @@ generateTimeSlots(startHour: number, endHour: number): string[] {
  
     this.isEndDateSelected = true; 
     this.updateEndTimes();
-    this.calculateTotalAmount();
- 
+
+ this.getPrice()
   }
 
   // Custom validator for checking time mismatch when both dates are the same
@@ -418,8 +423,29 @@ generateTimeSlots(startHour: number, endHour: number): string[] {
     }
   }
   
+  getPrice(): void {
   
-  
+      const requestBody = {
+        model: this.userForm.get('model')?.value,
+        startDate: this.userForm.get('startDate')?.value,
+        endDate: this.userForm.get('endDate')?.value,
+        startTime: this.userForm.get('startTime')?.value,
+        endTime: this.userForm.get('endTime')?.value,
+      };
+
+      this.bookingservice.getBookingPrice(requestBody).subscribe((response: any) => {
+          if (response.statusCode === 200 && response.name === 'SUCCESS_OK') {
+            console.log('Price fetched successfully:', response);
+            this.totalAmount = response.data; // Safely access the 'data' property
+            this.userForm.get('bookingAmount')?.setValue(this.totalAmount);
+          }
+        
+  });
+ 
+    }
+
+
+
   // Filter function for end date picker to disable dates before start date
   endDateFilter = (date: Date | null): boolean => {
     return date ? date >= this.startDate : false;
